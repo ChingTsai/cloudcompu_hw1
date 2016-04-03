@@ -14,13 +14,17 @@ public class InvertedIndex {
 		
 		Job job = Job.getInstance(conf, "InvertedIndex");
 		job.setJarByClass(InvertedIndex.class);
-		
+
 		// set the class of each stage in mapreduce
 		/*job.setMapperClass(WordCountMapper.class);
 		job.setPartitionerClass(WordCountPartitioner.class);
 		job.setSortComparatorClass(WordCountKeyComparator.class);
 		job.setReducerClass(WordCountReducer.class);
 		*/
+		job.setMapperClass(InvIdxMapper.class);
+		job.setPartitionerClass(InvIdxPart.class);
+		job.setReducerClass(InvIdxReducer.class);
+		job.setCombinerClass(InvIdxCombi.class);
 		//job.setMapperClass(xxx.class);
 		//job.setPartitionerClass(xxx.class);
 		//job.setSortComparatorClass(xxx.class);
@@ -29,6 +33,8 @@ public class InvertedIndex {
 		// set the output class of Mapper and Reducer
 		job.setMapOutputKeyClass(Text.class);
 		job.setMapOutputValueClass(IntWritable.class);
+		job.setOutputKeyClass(Text.class);
+		job.setOutputValueClass(Text.class);
 		//job.setOutputKeyClass(xxx.class);
 		//job.setOutputValueClass(xxx.class);
 		
