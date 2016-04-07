@@ -26,7 +26,7 @@ public class InvertedIndex {
 		job.setPartitionerClass(InvIdxPart.class);
 		job.setReducerClass(InvIdxReducer.class);
 		job.setCombinerClass(InvIdxCombi.class);
-		job.setSortComparatorClass(InvIdxCompare.class);
+		//job.setSortComparatorClass(InvIdxCompare.class);
 		// job.setMapperClass(xxx.class);
 		// job.setPartitionerClass(xxx.class);
 		// job.setSortComparatorClass(xxx.class);
