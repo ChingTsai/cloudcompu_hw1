@@ -46,7 +46,7 @@ public class InvIdxReducer extends Reducer<Text, MapWritable, Text, Text> {
 		 */
 		SortedSet<String> keys = new TreeSet<String>(tmpMap.keySet());
 		for (String file : keys) {
-			detString = detString + key + " : " + tmpMap.get(file) + ", ";
+			detString = detString + file + " : " + tmpMap.get(file) + ", ";
 		}
 		/*
 		 * for (Entry<String, Integer> entry : tmpMap.entrySet()) { detString =
