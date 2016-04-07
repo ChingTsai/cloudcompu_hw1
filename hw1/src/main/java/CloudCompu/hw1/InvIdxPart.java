@@ -4,8 +4,8 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Partitioner;
 
-public class InvIdxPart extends Partitioner<Text, IntWritable> {
-	public int getPartition(Text key, IntWritable value, int numReduceTasks) {
+public class InvIdxPart extends Partitioner<Text, KeyDetial> {
+	public int getPartition(Text key, KeyDetial value, int numReduceTasks) {
 
 		if (key.charAt(0)<='g')
 			return 0;
@@ -13,4 +13,6 @@ public class InvIdxPart extends Partitioner<Text, IntWritable> {
 			return 1;
 
 	}
+
+
 }
