@@ -32,7 +32,7 @@ public class InvIdxReducer extends Reducer<Text, KeyDetial, Text, Text> {
 
 			}
 		}
-		String detString = "";
+		String detString = map.size()+"";
 		Iterator iter = map.entrySet().iterator();
 		while (iter.hasNext()) {
 			Map.Entry<String, Integer> entry = (Entry<String, Integer>) iter
