@@ -9,8 +9,8 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class InvIdxMapper extends Mapper<LongWritable, Text, Text, IntWritable>{
-	private IntWritable one = new IntWritable(1);
+public class InvIdxMapper extends Mapper<LongWritable, Text, Text, KeyDetial>{
+	private KeyDetial one = new KeyDetial();
 	private Text  word = new Text(); 
 	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 		FileSplit fileSplit = (FileSplit)context.getInputSplit();
@@ -19,6 +19,7 @@ public class InvIdxMapper extends Mapper<LongWritable, Text, Text, IntWritable>{
 		while(itr.hasMoreTokens()){
 			String toProcess = itr.nextToken();
 			word.set(toProcess+"_"+filename);
+			one.setWordCount(1);
 			context.write(word, one);
 		}
 	}

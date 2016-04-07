@@ -10,13 +10,13 @@ import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class InvIdxReducer extends Reducer<Text, MapWritable, Text, Text> {
+public class InvIdxReducer extends Reducer<Text, KeyDetial, Text, Text> {
 	private Text detail = new Text();
 
-	public void reduce(Text key, Iterable<MapWritable> values, Context context)
+	public void reduce(Text key, Iterable<KeyDetial> values, Context context)
 			throws IOException, InterruptedException {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		for (MapWritable val : values) {
+		for (KeyDetial val : values) {
 			Iterator iter = val.entrySet().iterator();
 			String tmp_word;
 			while (iter.hasNext()) {
