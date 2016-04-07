@@ -19,18 +19,14 @@ public class InvIdxMapper extends Mapper<LongWritable, Text, Text, MapWritable> 
 
 		FileSplit fileSplit = (FileSplit) context.getInputSplit();
 		String filename = fileSplit.getPath().getName();
-		StringTokenizer itr = new StringTokenizer(value.toString());
-
+		StringTokenizer itr = new StringTokenizer(value.toString().replaceAll("\\p{P}", ""));
 		while (itr.hasMoreTokens()) {
 			String toProcess = itr.nextToken();
-			String[] custTokenizer = toProcess.split("\\P{Alpha}+");
-
-			for (String s : custTokenizer) {
-				word.set(s);
+			if (Character.isAlphabetic(toProcess.toCharArray()[0])) {
+				word.set(toProcess);
 				map.put(new Text(filename), new IntWritable(1));
 				context.write(word, map);
 			}
-
 		}
 
 	}
