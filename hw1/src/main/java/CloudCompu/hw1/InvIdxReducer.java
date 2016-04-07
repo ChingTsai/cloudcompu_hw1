@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.MapWritable;
@@ -23,15 +24,22 @@ public class InvIdxReducer extends Reducer<Text, KeyDetial, Text, Text> {
 				Map.Entry<Text, IntWritable> entry = (Map.Entry) iter.next();
 				tmp_word = entry.getKey().toString();
 				if (map.containsKey(tmp_word)) {
-					map.put(tmp_word, map.get(tmp_word) + entry.getValue().get());
+					map.put(tmp_word, map.get(tmp_word)
+							+ entry.getValue().get());
 				} else {
 					map.put(tmp_word, entry.getValue().get());
 				}
 
 			}
 		}
-
-		detail.set(map.toString());
-		context.write(key,detail);
+		String detString = "";
+		Iterator iter = map.entrySet().iterator();
+		while (iter.hasNext()) {
+			Map.Entry<String, Integer> entry = (Entry<String, Integer>) iter
+					.next();
+			detString.concat(entry.getKey() + ":" + entry.getValue());
+		}
+		detail.set(detString);
+		context.write(key, detail);
 	}
 }
