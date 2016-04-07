@@ -43,6 +43,7 @@ public class InvIdxCombi extends Reducer<Text, MapWritable, Text, MapWritable> {
 			map.put(new Text(entry.getKey().toString()),
 					new IntWritable(entry.getValue()));
 		}
+		context.write(key, map);
 
 	}
 }
