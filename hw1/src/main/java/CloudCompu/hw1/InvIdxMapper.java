@@ -6,11 +6,12 @@ import java.util.StringTokenizer;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class InvIdxMapper extends Mapper<LongWritable, Text, Text, KeyDetial> {
-	private KeyDetial one = new KeyDetial();
+public class InvIdxMapper extends Mapper<LongWritable, Text, Text, MapWritable> {
+	private MapWritable map = new MapWritable();
 	private Text word = new Text();
 
 	public void map(LongWritable key, Text value, Context context)
@@ -22,9 +23,9 @@ public class InvIdxMapper extends Mapper<LongWritable, Text, Text, KeyDetial> {
 		while (itr.hasMoreTokens()) {
 			String toProcess = itr.nextToken();
 			if (Character.isAlphabetic(toProcess.toCharArray()[0])) {
-				word.set(toProcess + "_" + filename);
-				one.setWordCount(1);
-				context.write(word, one);
+				word.set(toProcess);
+				map.put(new Text(filename), new IntWritable(1));
+				context.write(word, map);
 			}
 		}
 

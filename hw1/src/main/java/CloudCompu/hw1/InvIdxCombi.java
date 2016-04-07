@@ -1,41 +1,48 @@
 package CloudCompu.hw1;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class InvIdxCombi extends Reducer<Text, KeyDetial, Text, KeyDetial> {
-	private KeyDetial kd = new KeyDetial();
-	private Text word = new Text();
-	private Text file = new Text();
-	private IntWritable count = new IntWritable();
+public class InvIdxCombi extends Reducer<Text, MapWritable, Text, MapWritable> {
+	private MapWritable map = new MapWritable();
 
-	public void reduce(Text key, Iterable<KeyDetial> values, Context context)
+	public void reduce(Text key, Iterable<MapWritable> values, Context context)
 			throws IOException, InterruptedException {
+		HashMap<String, Integer> tmpMap = new HashMap<String, Integer>();
 
-		Iterator<KeyDetial> iter = values.iterator();
-		KeyDetial kdHead = iter.next();
-		if (kdHead.getWordCount() == 0) {
-			//Already Combined, Fast Pass
-			context.write(key, kdHead);
-		} else {
-			int sum = 0;
-			sum += kdHead.getWordCount();
-			while(iter.hasNext()){
-				sum += iter.next().getWordCount();
+		for (MapWritable val : values) {
+			Iterator<Entry<Writable, Writable>> iter = val.entrySet()
+					.iterator();
+			String tmpWord;
+			while (iter.hasNext()) {
+				Map.Entry<Text, IntWritable> entry = (Map.Entry) iter.next();
+				tmpWord = entry.getKey().toString();
+				if (tmpMap.containsKey(tmpWord)) {
+					tmpMap.put(tmpWord, tmpMap.get(tmpWord)
+							+ entry.getValue().get());
+				} else {
+					tmpMap.put(tmpWord, entry.getValue().get());
+				}
+
 			}
-			String[] fileWord = key.toString().split("_");
-			word.set(fileWord[0]);
-			file.set(fileWord[1]);
-			count.set(sum);
-
-			kd.put(file, count);
-			kd.setWordCount(0);
-			context.write(word, kd);
 		}
+
+		Iterator<Entry<String, Integer>> iter = tmpMap.entrySet().iterator();
+		while (iter.hasNext()) {
+			Map.Entry<String, Integer> entry = (Map.Entry) iter.next();
+
+			map.put(new Text(entry.getKey().toString()),
+					new IntWritable(entry.getValue()));
+		}
+
 	}
 }

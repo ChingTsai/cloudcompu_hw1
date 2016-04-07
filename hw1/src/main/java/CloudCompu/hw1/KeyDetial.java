@@ -11,8 +11,7 @@ import org.apache.hadoop.util.ReflectionUtils;
 
 public class KeyDetial extends MapWritable {
 	private int wordCount = 0;
-	private Map<Writable, Writable> instance;
-
+	
 	public void setWordCount(int count) {
 		this.wordCount = count;
 	}
