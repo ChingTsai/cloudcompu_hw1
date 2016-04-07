@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.MapWritable;
@@ -42,10 +44,14 @@ public class InvIdxReducer extends Reducer<Text, MapWritable, Text, Text> {
 		 * (Entry<String, Integer>) iter .next(); detString = entry.getKey() +
 		 * ":" + entry.getValue(); }
 		 */
-		for (Entry<String, Integer> entry : tmpMap.entrySet()) {
-			detString = detString + entry.getKey() + " : " + entry.getValue()
-					+ ", ";
+		SortedSet<String> keys = new TreeSet<String>(tmpMap.keySet());
+		for (String file : keys) {
+			detString = detString + key + " : " + tmpMap.get(file) + ", ";
 		}
+		/*
+		 * for (Entry<String, Integer> entry : tmpMap.entrySet()) { detString =
+		 * detString + entry.getKey() + " : " + entry.getValue() + ", "; }
+		 */
 		detail.set(detString);
 		context.write(key, detail);
 	}
