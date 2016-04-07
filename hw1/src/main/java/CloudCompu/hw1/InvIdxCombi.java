@@ -40,7 +40,7 @@ public class InvIdxCombi extends Reducer<Text, MapWritable, Text, MapWritable> {
 		while (iter.hasNext()) {
 			Map.Entry<String, Integer> entry = (Map.Entry) iter.next();
 
-			map.put(new Text(entry.getKey().toString()),
+			map.put(new Text(entry.getKey()),
 					new IntWritable(entry.getValue()));
 		}
 		context.write(key, map);
