@@ -34,6 +34,7 @@ public class InvIdxCombi extends Reducer<Text, KeyDetial, Text, KeyDetial> {
 			count.set(sum);
 
 			kd.put(file, count);
+			kd.setWordCount(0);
 			context.write(word, kd);
 		}
 	}
