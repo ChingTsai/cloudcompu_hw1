@@ -6,6 +6,7 @@ import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class InvertedIndex {
@@ -15,17 +16,25 @@ public class InvertedIndex {
 		Job job = Job.getInstance(conf, "InvertedIndex");
 		job.setJarByClass(InvertedIndex.class);
 
-		// set the class of each stage in mapreduce
+		//set input format
+		
+		//job.setInputFormatClass(KeyValueTextInputFormat.class);
 		/*
-		 * job.setMapperClass(WordCountMapper.class);
-		 * job.setPartitionerClass(WordCountPartitioner.class);
-		 * job.setSortComparatorClass(WordCountKeyComparator.class);
-		 * job.setReducerClass(WordCountReducer.class);
+		 * Test String : 1,AG
+		 * 				 3,BB
+		 * TextInputFormat:
+		 * 				(0,AG)
+		 * 				(16,BB)
+		 * KeyValueTextInputFormat:
+		 * 				(1,AG)
+		 * 				(3,BB)
+		 * Can be config with mapreduce.input.keyvaluelinerecordreader.key.value.separato
 		 */
-		job.setMapperClass(InvIdxMapper.class);
+		//setthe class of each stage in mapreduce
+		job.setMapperClass(InvIdxExMapper.class);
 		job.setPartitionerClass(InvIdxPart.class);
-		job.setReducerClass(InvIdxReducer.class);
-		job.setCombinerClass(InvIdxCombi.class);
+		job.setReducerClass(InvIdxExReducer.class);
+		job.setCombinerClass(InvIdxExCombi.class);
 		//job.setSortComparatorClass(InvIdxCompare.class);
 		// job.setMapperClass(xxx.class);
 		// job.setPartitionerClass(xxx.class);
