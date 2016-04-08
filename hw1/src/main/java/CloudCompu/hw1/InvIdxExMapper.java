@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
@@ -25,9 +24,7 @@ public class InvIdxExMapper extends
 		FileSplit fileSplit = (FileSplit) context.getInputSplit();
 		String filename = fileSplit.getPath().getName();
 		HashMap<String, LinkedList<LongWritable>> tmpMap = new HashMap<String, LinkedList<LongWritable>>();
-		// Replace nonAlphabetic with space
-		// StringTokenizer itr = new
-		// StringTokenizer(value.toString().replaceAll("[^a-zA-Z]", " "));
+		// Replace nonAlphabetic with space and split into token
 		Matcher matcher = Pattern.compile("\\S+").matcher(
 				value.toString().replaceAll("[^a-zA-Z]", " "));
 		while (matcher.find()) {
@@ -36,19 +33,15 @@ public class InvIdxExMapper extends
 						new LongWritable(matcher.start()));
 			} else {
 				LinkedList<LongWritable> l = new LinkedList<LongWritable>();
+				/*
+				 * Store the offset of word by (this partition offset of the
+				 * file and the word offset of this partition )
+				 */
 				l.add(new LongWritable(key.get() + matcher.start()));
 				tmpMap.put(matcher.group(), l);
 			}
-			// System.out.println(matcher.start() + ":" + matcher.group());
+
 		}
-		/*
-		 * while (itr.hasMoreTokens()) { String toProcess = itr.nextToken();
-		 * 
-		 * word.set(toProcess); map.put(new Text(filename), new IntWritable(1));
-		 * context.write(word, map);
-		 * 
-		 * }
-		 */
 
 		for (Entry<String, LinkedList<LongWritable>> e : tmpMap.entrySet()) {
 			word.set(e.getKey());

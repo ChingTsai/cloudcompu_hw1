@@ -4,17 +4,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.hadoop.io.ArrayWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.hadoop.mapreduce.Reducer.Context;
 
 public class InvIdxExCombi extends
 		Reducer<Text, MapWritable, Text, MapWritable> {
@@ -30,8 +26,7 @@ public class InvIdxExCombi extends
 			String tmpWord;
 			while (iter.hasNext()) {
 
-				Map.Entry<Text, LongArrayWritable> entry = (Map.Entry) iter
-						.next();
+				Entry<Text, LongArrayWritable> entry = (Entry) iter.next();
 				LongWritable[] l = (LongWritable[]) entry.getValue().toArray();
 				tmpWord = entry.getKey().toString();
 				if (!tmpMap.containsKey(tmpWord))
