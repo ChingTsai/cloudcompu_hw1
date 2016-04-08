@@ -6,7 +6,7 @@ import org.apache.hadoop.io.LongWritable;
 
 public class LongArrayWritable extends ArrayWritable {
 
-	public LongArrayWritable(Class<? extends Writable> valueClass) {
+	public LongArrayWritable() {
 		super(LongWritable.class);
 	}
 
