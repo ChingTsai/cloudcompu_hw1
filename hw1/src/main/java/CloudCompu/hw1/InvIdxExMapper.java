@@ -36,7 +36,7 @@ public class InvIdxExMapper extends
 						new LongWritable(matcher.start()));
 			} else {
 				LinkedList<LongWritable> l = new LinkedList<LongWritable>();
-				l.add(new LongWritable(matcher.start()));
+				l.add(new LongWritable(key.get() + matcher.start()));
 				tmpMap.put(matcher.group(), l);
 			}
 			// System.out.println(matcher.start() + ":" + matcher.group());
