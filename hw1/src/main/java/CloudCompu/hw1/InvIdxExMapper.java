@@ -53,9 +53,8 @@ public class InvIdxExMapper extends
 		for (Entry<String, LinkedList<LongWritable>> e : tmpMap.entrySet()) {
 			word.set(e.getKey());
 			map.put(new Text(filename),
-					new ArrayWritable(LongWritable.class, (LongWritable[]) e
-							.getValue().toArray(
-									new LongWritable[e.getValue().size()])));
+					new LongArrayWritable((LongWritable[]) e.getValue()
+							.toArray(new LongWritable[e.getValue().size()])));
 			context.write(word, map);
 		}
 

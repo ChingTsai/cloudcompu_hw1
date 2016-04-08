@@ -30,7 +30,8 @@ public class InvIdxExCombi extends
 			String tmpWord;
 			while (iter.hasNext()) {
 
-				Map.Entry<Text, ArrayWritable> entry = (Map.Entry) iter.next();
+				Map.Entry<Text, LongArrayWritable> entry = (Map.Entry) iter
+						.next();
 				LongWritable[] l = (LongWritable[]) entry.getValue().toArray();
 				tmpWord = entry.getKey().toString();
 				if (!tmpMap.containsKey(tmpWord))
@@ -46,9 +47,8 @@ public class InvIdxExCombi extends
 		for (Entry<String, LinkedList<LongWritable>> e : tmpMap.entrySet()) {
 
 			map.put(new Text(e.getKey()),
-					new ArrayWritable(LongWritable.class, (LongWritable[]) e
-							.getValue().toArray(
-									new LongWritable[e.getValue().size()])));
+					new LongArrayWritable((LongWritable[]) e.getValue()
+							.toArray(new LongWritable[e.getValue().size()])));
 		}
 		context.write(key, map);
 

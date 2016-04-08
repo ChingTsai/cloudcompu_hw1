@@ -11,15 +11,13 @@ import java.util.TreeSet;
 import java.util.Map.Entry;
 
 import org.apache.hadoop.io.ArrayWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.hadoop.mapreduce.Reducer.Context;
 
-public class InvIdxExReducer extends Reducer<Text, MapWritable, Text, Text>{
+public class InvIdxExReducer extends Reducer<Text, MapWritable, Text, Text> {
 	private Text detail = new Text();
 
 	public void reduce(Text key, Iterable<MapWritable> values, Context context)
