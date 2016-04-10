@@ -46,7 +46,7 @@ public class InvIdxExReducer extends Reducer<Text, MapWritable, Text, Text> {
 		}
 		
 		String detString = tmpMap.size() + " -> ";
-		long N = context.getConfiguration().getLong("mapreduce.input.num.files", 0);
+		long N = context.getConfiguration().getLong("mapreduce.input.fileinputformat.numinputfiles", 0);
 
 		
 		SortedSet<String> keys = new TreeSet<String>(tmpMap.keySet());
