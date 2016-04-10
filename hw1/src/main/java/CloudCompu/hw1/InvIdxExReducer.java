@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.Map.Entry;
 
 import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -16,6 +16,8 @@ import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.TaskCounter;
+import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 
 public class InvIdxExReducer extends Reducer<Text, MapWritable, Text, Text> {
 	private Text detail = new Text();
@@ -42,19 +44,21 @@ public class InvIdxExReducer extends Reducer<Text, MapWritable, Text, Text> {
 
 			}
 		}
-
+		
 		String detString = tmpMap.size() + " -> ";
+		long N = context.getConfiguration().getLong("mapreduce.input.num.files", 0);
 
+		
 		SortedSet<String> keys = new TreeSet<String>(tmpMap.keySet());
 		for (String file : keys) {
-			detString = detString + file + " " + tmpMap.get(file).size() + " [";
+			detString = detString +" "+N+" "+ file + " " + tmpMap.get(file).size() + " [";
 			Collections.sort(tmpMap.get(file));
 			for (LongWritable offset : tmpMap.get(file)) {
 				detString = detString + offset.get() + ",";
 			}
 			detString = detString + "]; ";
 		}
-
+		
 		/*
 		 * for (Entry<String, Integer> entry : tmpMap.entrySet()) { detString =
 		 * detString + entry.getKey() + " : " + entry.getValue() + ", "; }

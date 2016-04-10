@@ -10,21 +10,21 @@ import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.util.ReflectionUtils;
 
 public class KeyDetial extends MapWritable {
-	private int wordCount = 0;
+	private int N = 0;
 	
-	public void setWordCount(int count) {
-		this.wordCount = count;
+	public void N(int count) {
+		this.N = count;
 	}
 
-	public int getWordCount() {
-		return this.wordCount;
+	public int getN() {
+		return this.N;
 	}
 
 	@Override
 	public void write(DataOutput out) throws IOException {
 		super.write(out);
 
-		out.writeInt(wordCount);
+		out.writeInt(N);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -32,7 +32,7 @@ public class KeyDetial extends MapWritable {
 	public void readFields(DataInput in) throws IOException {
 		super.readFields(in);
 
-		wordCount = in.readInt();
+		N = in.readInt();
 	}
 
 }
