@@ -45,10 +45,10 @@ public class InvIdxExReducer extends Reducer<Text, MapWritable, Text, Text> {
 			}
 		}
 		
-		String detString = tmpMap.size() + " -> ";
+		String detString = tmpMap.size() + " > ";
+		//Get number of files for further usage
 		long N = context.getConfiguration().getLong("mapreduce.input.fileinputformat.numinputfiles", 0);
 
-		
 		SortedSet<String> keys = new TreeSet<String>(tmpMap.keySet());
 		for (String file : keys) {
 			detString = detString +" "+N+" "+ file + " " + tmpMap.get(file).size() + " [";

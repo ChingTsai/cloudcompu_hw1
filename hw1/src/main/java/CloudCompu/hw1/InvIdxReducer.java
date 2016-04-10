@@ -37,7 +37,7 @@ public class InvIdxReducer extends Reducer<Text, MapWritable, Text, Text> {
 
 			}
 		}
-		String detString = tmpMap.size() + " -> ";
+		String detString = tmpMap.size() + " > ";
 		Iterator iter = tmpMap.entrySet().iterator();
 		/*
 		 * while (iter.hasNext()) { Map.Entry<String, Integer> entry =
