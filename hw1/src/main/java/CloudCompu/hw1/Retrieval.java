@@ -12,7 +12,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class Retrieval {
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
-		conf.set("Query", "AJAX");
+		
 		//Store global query for later usage
 		Job job = Job.getInstance(conf, "Retrieval");
 		job.setJarByClass(Retrieval.class);
@@ -20,10 +20,10 @@ public class Retrieval {
 		job.setInputFormatClass(KeyValueTextInputFormat.class);
 		// set input format
 		// setthe class of each stage in mapreduce
-		job.setMapperClass(InvIdxExMapper.class);
+		job.setMapperClass(RetvalMapper.class);
 		job.setPartitionerClass(InvIdxPart.class);
-		job.setReducerClass(InvIdxExReducer.class);
-		job.setCombinerClass(InvIdxExCombi.class);
+		job.setReducerClass(RetvalReducer.class);
+		job.setCombinerClass(RetvalCombi.class);
 
 		// set the output class of Mapper and Reducer
 		job.setMapOutputKeyClass(Text.class);
