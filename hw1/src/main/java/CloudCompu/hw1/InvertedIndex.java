@@ -14,38 +14,34 @@ public class InvertedIndex {
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
 
-		Job job = Job.getInstance(conf, "InvertedIndex");
-		job.setJarByClass(InvertedIndex.class);
-		
-		FileSystem fs= FileSystem.get(conf); 
-		//get the FileStatus list from given dir
+		FileSystem fs = FileSystem.get(conf);
+		// get the FileStatus list from given dir
 		FileStatus[] status_list = fs.listStatus(new Path(args[0]));
-		if(status_list != null){
-		    for(FileStatus status : status_list){
-		    	System.out.println(status.getPath().getName());
-		    }
+		String allFile = "";
+		if (status_list != null) {
+			for (FileStatus status : status_list) {
+
+				allFile = allFile + " " + status.getPath().getName();
+			}
 		}
 
-		//set input format
-		
-		//job.setInputFormatClass(KeyValueTextInputFormat.class);
+		conf.set("allFile", allFile);
+		Job job = Job.getInstance(conf, "InvertedIndex");
+		job.setJarByClass(InvertedIndex.class);
+		// set input format
+
+		// job.setInputFormatClass(KeyValueTextInputFormat.class);
 		/*
-		 * Test String : 1,AG
-		 * 				 3,BB
-		 * TextInputFormat:
-		 * 				(0,AG)
-		 * 				(16,BB)
-		 * KeyValueTextInputFormat:
-		 * 				(1,AG)
-		 * 				(3,BB)
-		 * Can be config with mapreduce.input.keyvaluelinerecordreader.key.value.separato
+		 * Test String : 1,AG 3,BB TextInputFormat: (0,AG) (16,BB)
+		 * KeyValueTextInputFormat: (1,AG) (3,BB) Can be config with
+		 * mapreduce.input.keyvaluelinerecordreader.key.value.separato
 		 */
-		//setthe class of each stage in mapreduce
+		// setthe class of each stage in mapreduce
 		job.setMapperClass(InvIdxExMapper.class);
 		job.setPartitionerClass(InvIdxPart.class);
 		job.setReducerClass(InvIdxExReducer.class);
 		job.setCombinerClass(InvIdxExCombi.class);
-		//job.setSortComparatorClass(InvIdxCompare.class);
+		// job.setSortComparatorClass(InvIdxCompare.class);
 		// job.setMapperClass(xxx.class);
 		// job.setPartitionerClass(xxx.class);
 		// job.setSortComparatorClass(xxx.class);

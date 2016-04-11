@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapWritable;
@@ -24,10 +25,14 @@ public class InvIdxExMapper extends
 
 		FileSplit fileSplit = (FileSplit) context.getInputSplit();
 		String filename = fileSplit.getPath().getName();
-		Path[] allFile = context.getFileClassPaths();
+
+		Configuration conf = context.getConfiguration();
+		String str = conf.get("allFile");
+		String[] allFile = str.split(" ");
+
 		int fileId = 0;
 		for (int i = 0; i < allFile.length; i++) {
-			if (allFile[i].getName().equals(filename)) {
+			if (allFile[i].equals(filename)) {
 				fileId = i;
 			}
 		}
@@ -53,7 +58,7 @@ public class InvIdxExMapper extends
 
 		for (Entry<String, LinkedList<LongWritable>> e : tmpMap.entrySet()) {
 			word.set(e.getKey());
-			map.put(new Text(""+fileId),
+			map.put(new Text("" + fileId),
 					new LongArrayWritable((LongWritable[]) e.getValue()
 							.toArray(new LongWritable[e.getValue().size()])));
 			context.write(word, map);

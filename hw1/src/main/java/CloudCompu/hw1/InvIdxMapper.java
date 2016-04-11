@@ -20,13 +20,6 @@ public class InvIdxMapper extends Mapper<LongWritable, Text, Text, MapWritable> 
 
 		FileSplit fileSplit = (FileSplit) context.getInputSplit();
 		String filename = fileSplit.getPath().getName();
-		Path[] allFile = context.getFileClassPaths();
-		int fileId;
-		for (int i = 0; i < allFile.length; i++) {
-			if (allFile[i].getName().equals(filename)) {
-				fileId = i;
-			}
-		}
 
 		// Replace nonAlphabetic with space
 		StringTokenizer itr = new StringTokenizer(value.toString().replaceAll(
