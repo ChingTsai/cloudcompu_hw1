@@ -1,12 +1,13 @@
 package CloudCompu.hw1;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class InvertedIndex {
@@ -15,6 +16,15 @@ public class InvertedIndex {
 
 		Job job = Job.getInstance(conf, "InvertedIndex");
 		job.setJarByClass(InvertedIndex.class);
+		
+		FileSystem fs= FileSystem.get(conf); 
+		//get the FileStatus list from given dir
+		FileStatus[] status_list = fs.listStatus(new Path(args[0]));
+		if(status_list != null){
+		    for(FileStatus status : status_list){
+		    	System.out.println(status.getPath().getName());
+		    }
+		}
 
 		//set input format
 		
