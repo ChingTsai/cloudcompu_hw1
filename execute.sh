@@ -5,5 +5,5 @@
 #hdfs dfs -cat /user/TA/WordCount/Output/part-*
 
 hdfs dfs -rm -r output
-hadoop jar ${PWD##*/}.jar CloudCompu.hw1.InvertedIndex input output
-hdfs dfs -cat output/part-*
+hadoop jar ${PWD##*/}.jar CloudCompu.hw1.InvertedIndex input invidx
+hdfs dfs -cat invidx/part-*
