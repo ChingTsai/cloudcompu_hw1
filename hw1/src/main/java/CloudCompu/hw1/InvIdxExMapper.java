@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
@@ -23,6 +24,13 @@ public class InvIdxExMapper extends
 
 		FileSplit fileSplit = (FileSplit) context.getInputSplit();
 		String filename = fileSplit.getPath().getName();
+		Path[] allFile = context.getFileClassPaths();
+		int fileId = 0;
+		for (int i = 0; i < allFile.length; i++) {
+			if (allFile[i].getName().equals(filename)) {
+				fileId = i;
+			}
+		}
 		HashMap<String, LinkedList<LongWritable>> tmpMap = new HashMap<String, LinkedList<LongWritable>>();
 		// Replace nonAlphabetic with space and split into token
 		Matcher matcher = Pattern.compile("\\S+").matcher(
@@ -45,7 +53,7 @@ public class InvIdxExMapper extends
 
 		for (Entry<String, LinkedList<LongWritable>> e : tmpMap.entrySet()) {
 			word.set(e.getKey());
-			map.put(new Text(filename),
+			map.put(new Text(""+fileId),
 					new LongArrayWritable((LongWritable[]) e.getValue()
 							.toArray(new LongWritable[e.getValue().size()])));
 			context.write(word, map);

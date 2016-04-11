@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapWritable;
@@ -19,16 +20,25 @@ public class InvIdxMapper extends Mapper<LongWritable, Text, Text, MapWritable> 
 
 		FileSplit fileSplit = (FileSplit) context.getInputSplit();
 		String filename = fileSplit.getPath().getName();
-		//Replace nonAlphabetic with space
-		StringTokenizer itr = new StringTokenizer(value.toString().replaceAll("[^a-zA-Z]", " "));
-		
+		Path[] allFile = context.getFileClassPaths();
+		int fileId;
+		for (int i = 0; i < allFile.length; i++) {
+			if (allFile[i].getName().equals(filename)) {
+				fileId = i;
+			}
+		}
+
+		// Replace nonAlphabetic with space
+		StringTokenizer itr = new StringTokenizer(value.toString().replaceAll(
+				"[^a-zA-Z]", " "));
+
 		while (itr.hasMoreTokens()) {
 			String toProcess = itr.nextToken();
-			
-				word.set(toProcess);
-				map.put(new Text(filename), new IntWritable(1));
-				context.write(word, map);
-			
+
+			word.set(toProcess);
+			map.put(new Text(filename), new IntWritable(1));
+			context.write(word, map);
+
 		}
 
 	}
