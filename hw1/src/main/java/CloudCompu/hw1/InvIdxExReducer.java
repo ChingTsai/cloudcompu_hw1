@@ -15,7 +15,7 @@ import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class InvIdxExReducer extends Reducer<Text, MapWritable, Text, Text> {
+public class InvIdxExReducer extends Reducer<Text, LongArrayWritable, Text, Text> {
 	private Text detail = new Text();
 	private Text word = new Text();
 
@@ -33,6 +33,7 @@ public class InvIdxExReducer extends Reducer<Text, MapWritable, Text, Text> {
 			detString = detString + " " + val.getFileId() + " "
 					+ offsets.length + " [";
 			Arrays.sort(offsets);
+			
 			for (LongWritable o : offsets) {
 				detString = detString + o.get() + ",";
 			}
