@@ -18,7 +18,9 @@ public class InvIdxExCombi extends
 	public void reduce(Text key, Iterable<LongArrayWritable> values,
 			Context context) throws IOException, InterruptedException {
 		ArrayList<LongWritable> tmplist = new ArrayList<LongWritable>();
+
 		for (LongArrayWritable val : values) {
+			list.setFileId(val.getFileId());
 			LongWritable[] offsets = (LongWritable[]) val.toArray();
 			for (LongWritable o : offsets) {
 				tmplist.add(o);
