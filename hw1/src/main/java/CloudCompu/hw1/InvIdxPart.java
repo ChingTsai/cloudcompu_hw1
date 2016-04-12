@@ -6,12 +6,13 @@ import org.apache.hadoop.mapreduce.Partitioner;
 
 public class InvIdxPart extends Partitioner<Text, MapWritable> {
 	public int getPartition(Text key, MapWritable value, int numReduceTasks) {
-
-		if (key.charAt(0) <= 'g')
-			return 0;
-		else
-			return 1;
+		int c = key.charAt(0);
+		int part = numReduceTasks / 2;
+		if (c < 'a') {
+			return part * ((c - 'A') / 26);
+		} else {
+			return part * ((c - 'A') / 26) + part;
+		}
 
 	}
-
 }

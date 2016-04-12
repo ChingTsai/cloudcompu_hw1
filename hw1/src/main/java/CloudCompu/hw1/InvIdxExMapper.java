@@ -8,16 +8,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.Path;
+
 import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.MapWritable;
+
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 
 public class InvIdxExMapper extends
-		Mapper<LongWritable, Text, Text, MapWritable> {
-	private MapWritable map = new MapWritable();
+		Mapper<LongWritable, Text, Text, LongArrayWritable> {
+	// private MapWritable map = new MapWritable();
+	LongArrayWritable list = new LongArrayWritable();
 	private Text word = new Text();
 
 	public void map(LongWritable key, Text value, Context context)
@@ -57,11 +58,16 @@ public class InvIdxExMapper extends
 		}
 
 		for (Entry<String, LinkedList<LongWritable>> e : tmpMap.entrySet()) {
-			word.set(e.getKey());
-			map.put(new Text("" + fileId),
-					new LongArrayWritable((LongWritable[]) e.getValue()
-							.toArray(new LongWritable[e.getValue().size()])));
-			context.write(word, map);
+			word.set(e.getKey() + "_" + fileId);
+			/*
+			 * map.put(new Text("" + fileId), new
+			 * LongArrayWritable((LongWritable[]) e.getValue() .toArray(new
+			 * LongWritable[e.getValue().size()])));
+			 */
+			list.set((LongWritable[]) e.getValue().toArray(
+					new LongWritable[e.getValue().size()]));
+			list.setFileId(fileId);
+			context.write(word, list);
 		}
 
 	}

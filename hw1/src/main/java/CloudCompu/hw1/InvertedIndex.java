@@ -40,7 +40,8 @@ public class InvertedIndex {
 		job.setMapperClass(InvIdxExMapper.class);
 		job.setPartitionerClass(InvIdxPart.class);
 		job.setReducerClass(InvIdxExReducer.class);
-		job.setCombinerClass(InvIdxExCombi.class);
+		// job.setCombinerClass(InvIdxExCombi.class);
+		job.setGroupingComparatorClass(InvIdxGpCompare.class);
 		// job.setSortComparatorClass(InvIdxCompare.class);
 		// job.setMapperClass(xxx.class);
 		// job.setPartitionerClass(xxx.class);
@@ -49,14 +50,14 @@ public class InvertedIndex {
 
 		// set the output class of Mapper and Reducer
 		job.setMapOutputKeyClass(Text.class);
-		job.setMapOutputValueClass(MapWritable.class);
+		job.setMapOutputValueClass(LongWritable.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
 		// job.setOutputKeyClass(xxx.class);
 		// job.setOutputValueClass(xxx.class);
 
 		// set the number of reducer
-		job.setNumReduceTasks(2);
+		job.setNumReduceTasks(8);
 
 		// add input/output path
 		FileInputFormat.addInputPath(job, new Path(args[0]));
