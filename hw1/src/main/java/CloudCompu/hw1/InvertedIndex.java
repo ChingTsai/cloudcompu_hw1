@@ -50,7 +50,7 @@ public class InvertedIndex {
 
 		// set the output class of Mapper and Reducer
 		job.setMapOutputKeyClass(Text.class);
-		job.setMapOutputValueClass(LongWritable.class);
+		job.setMapOutputValueClass(LongArrayWritable.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
 		// job.setOutputKeyClass(xxx.class);
