@@ -31,12 +31,14 @@ public class InvIdxExMapper extends
 		String str = conf.get("allFile");
 		String[] allFile = str.split(" ");
 
+		// Get File ID
 		int fileId = 0;
 		for (int i = 0; i < allFile.length; i++) {
 			if (allFile[i].equals(filename)) {
 				fileId = i;
 			}
 		}
+
 		HashMap<String, LinkedList<LongWritable>> tmpMap = new HashMap<String, LinkedList<LongWritable>>();
 		// Replace nonAlphabetic with space and split into token
 		Matcher matcher = Pattern.compile("\\S+").matcher(
@@ -44,7 +46,7 @@ public class InvIdxExMapper extends
 		while (matcher.find()) {
 			if (tmpMap.containsKey(matcher.group())) {
 				tmpMap.get(matcher.group()).add(
-						new LongWritable(matcher.start()));
+						new LongWritable(key.get() + matcher.start()));
 			} else {
 				LinkedList<LongWritable> l = new LinkedList<LongWritable>();
 				/*
