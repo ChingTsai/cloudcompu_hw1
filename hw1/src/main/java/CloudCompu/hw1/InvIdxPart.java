@@ -10,7 +10,7 @@ public class InvIdxPart extends Partitioner<Text, LongArrayWritable> {
 		if (c < 'a') {
 			return part * ((c - 'A') / 26);
 		} else {
-			return part * ((c - 'A') / 26) + part;
+			return part * ((c - 'a') / 26) + part;
 		}
 
 	}
