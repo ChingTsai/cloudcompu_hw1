@@ -17,33 +17,36 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 public class InvIdxExReducer extends Reducer<Text, MapWritable, Text, Text> {
 	private Text detail = new Text();
+	private Text word = new Text();
 
 	public void reduce(Text key, Iterable<LongArrayWritable> values,
 			Context context) throws IOException, InterruptedException {
-		HashMap<String, LinkedList<LongWritable>> tmpMap = new HashMap<String, LinkedList<LongWritable>>();
 		// Get number of files for further usage
 		long N = context.getConfiguration().getLong(
 				"mapreduce.input.fileinputformat.numinputfiles", 0);
 
-		String detString = tmpMap.size() + " > ";
+		String detString = " "+ N;
+		int df = 0;
 
 		for (LongArrayWritable val : values) {
 			LongWritable[] offsets = (LongWritable[]) val.toArray();
-			detString = detString + " " + N + " " + val.getFileId() + " "
+			detString = detString + " " + val.getFileId() + " "
 					+ offsets.length + " [";
 			Arrays.sort(offsets);
 			for (LongWritable o : offsets) {
 				detString = detString + o.get() + ",";
 			}
 			detString = detString + "]; ";
+			df++;
 
 		}
-
+		detString = df + " > " + detString;
 		/*
 		 * for (Entry<String, Integer> entry : tmpMap.entrySet()) { detString =
 		 * detString + entry.getKey() + " : " + entry.getValue() + ", "; }
 		 */
 		detail.set(detString);
-		context.write(key, detail);
+		word.set(key.toString().split("_")[0]);
+		context.write(word, detail);
 	}
 }
