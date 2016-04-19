@@ -15,25 +15,27 @@ import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class InvIdxExReducer extends Reducer<Text, LongArrayWritable, Text, Text> {
+public class InvIdxExReducer extends
+		Reducer<Text, LongArrayWritable, Text, Text> {
 	private Text detail = new Text();
 	private Text word = new Text();
 
 	public void reduce(Text key, Iterable<LongArrayWritable> values,
 			Context context) throws IOException, InterruptedException {
 		// Get number of files for further usage
-		long N = context.getConfiguration().getLong(
-				"mapreduce.input.fileinputformat.numinputfiles", 0);
-
-		String detString = " "+ N;
+		/*
+		 * long N = context.getConfiguration().getLong(
+		 * "mapreduce.input.fileinputformat.numinputfiles", 0);
+		 */
+		String detString = " ";
 		int df = 0;
 
 		for (LongArrayWritable val : values) {
 			LongWritable[] offsets = (LongWritable[]) val.toArray();
-			detString = detString + " " + val.getFileId() + " "
+			detString = detString + "; " + val.getFileId() + " "
 					+ offsets.length + " [";
 			Arrays.sort(offsets);
-			
+
 			for (LongWritable o : offsets) {
 				detString = detString + o.get() + ",";
 			}
@@ -41,7 +43,7 @@ public class InvIdxExReducer extends Reducer<Text, LongArrayWritable, Text, Text
 			df++;
 
 		}
-		detString = df + " > " + detString;
+		detString = df + detString;
 		/*
 		 * for (Entry<String, Integer> entry : tmpMap.entrySet()) { detString =
 		 * detString + entry.getKey() + " : " + entry.getValue() + ", "; }
