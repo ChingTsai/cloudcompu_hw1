@@ -32,14 +32,14 @@ public class InvIdxExReducer extends
 
 		for (LongArrayWritable val : values) {
 			LongWritable[] offsets = (LongWritable[]) val.toArray();
-			detString = detString + "; " + val.getFileId() + " "
+			detString = detString + ";" + val.getFileId() + " "
 					+ offsets.length + " [";
 			Arrays.sort(offsets);
 
 			for (LongWritable o : offsets) {
 				detString = detString + o.get() + ",";
 			}
-			detString = detString + "]; ";
+			detString = detString + "]";
 			df++;
 
 		}
