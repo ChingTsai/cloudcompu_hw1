@@ -1,51 +1,34 @@
 package CloudCompu.hw1;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Reducer;
 
 public class InvIdxExCombi extends
-		Reducer<Text, MapWritable, Text, MapWritable> {
-	private MapWritable map = new MapWritable();
+		Reducer<Text, LongArrayWritable, Text, LongArrayWritable> {
+	private LongArrayWritable list = new LongArrayWritable();
 
-	public void reduce(Text key, Iterable<MapWritable> values, Context context)
-			throws IOException, InterruptedException {
-		HashMap<String, LinkedList<LongWritable>> tmpMap = new HashMap<String, LinkedList<LongWritable>>();
+	public void reduce(Text key, Iterable<LongArrayWritable> values,
+			Context context) throws IOException, InterruptedException {
+		ArrayList<LongWritable> tmplist = new ArrayList<LongWritable>();
 
-		for (MapWritable val : values) {
-			Iterator<Entry<Writable, Writable>> iter = val.entrySet()
-					.iterator();
-			String tmpWord;
-			while (iter.hasNext()) {
-
-				Entry<Text, LongArrayWritable> entry = (Entry) iter.next();
-				LongWritable[] l = (LongWritable[]) entry.getValue().toArray();
-				tmpWord = entry.getKey().toString();
-				if (!tmpMap.containsKey(tmpWord))
-					tmpMap.put(tmpWord, new LinkedList<LongWritable>());
-
-				for (LongWritable offset : l) {
-					tmpMap.get(tmpWord).add(offset);
-				}
-
+		for (LongArrayWritable val : values) {
+			list.setFileId(val.getFileId());
+			LongWritable[] offsets = (LongWritable[]) val.toArray();
+			for (LongWritable o : offsets) {
+				tmplist.add(o);
 			}
 		}
 
-		for (Entry<String, LinkedList<LongWritable>> e : tmpMap.entrySet()) {
-
-			map.put(new Text(e.getKey()),
-					new LongArrayWritable((LongWritable[]) e.getValue()
-							.toArray(new LongWritable[e.getValue().size()])));
-		}
-		context.write(key, map);
+		list.set(tmplist.toArray(new LongWritable[tmplist.size()]));
+		context.write(key, list);
 
 	}
 }
