@@ -4,15 +4,18 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 
-public class RetvalGpCompare extends WritableComparator {
-	protected RetvalGpCompare() {
+public class InvIdxSortCompare extends WritableComparator {
+	protected InvIdxSortCompare() {
 		super(Text.class, true);
 	}
 
 	public int compare(WritableComparable w1, WritableComparable w2) {
 		Text t1 = (Text) w1;
 		Text t2 = (Text) w2;
-		return t1.toString().split("_")[0]
-				.compareTo(t2.toString().split("_")[0]);
+		int file_Id1 = Integer.parseInt(t1.toString().split("_")[0]);
+		int file_Id2 = Integer.parseInt(t2.toString().split("_")[0]);
+
+		return file_Id1 - file_Id2;
 	}
+
 }

@@ -50,7 +50,7 @@ public class RetvalReducer extends Reducer<Text, WordPos, Text, Text> {
 				}
 
 				detString = detString + "************************\r\n";
-				
+
 			}
 		}
 
