@@ -14,7 +14,7 @@ public class InvIdxSortCompare extends WritableComparator {
 		Text t2 = (Text) w2;
 		String key1 = t1.toString().split("_")[0];
 		String key2 = t2.toString().split("_")[0];
-		if (!key1.equals(key2)) {
+		if (key1.equals(key2)) {
 			int file_Id1 = Integer.parseInt(t1.toString().split("_")[1]);
 			int file_Id2 = Integer.parseInt(t2.toString().split("_")[1]);
 
