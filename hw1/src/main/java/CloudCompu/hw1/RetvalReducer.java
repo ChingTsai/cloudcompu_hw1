@@ -30,7 +30,7 @@ public class RetvalReducer extends Reducer<Text, WordPos, Text, Text> {
 					+ Double.toString(val.getW()) + "\r\n";
 			detString = detString + "************************\r\n";
 			subRank++;
-			inFile = new Path(inputDir + "/" + status_list[file_id]);
+			inFile = status_list[file_id].getPath();
 			for (String o : val.toString().split(" ")) {
 				fs.open(inFile).read(Long.parseLong(o) - 50L, buffer, 0, 1024);
 				detString = detString + new String(buffer, Charset.forName("UTF-8"));
