@@ -12,11 +12,11 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.Reducer.Context;
 
-public class RetvalCombi extends Reducer<Text, WordPos, Text, WordPos> {
+public class RetvalCombi extends Reducer<WordPos, WordPos, WordPos, WordPos> {
 	private WordPos wp = new WordPos();
-	private Text word = new Text();
+	private WordPos KeyWeight = new WordPos();
 
-	public void reduce(Text key, Iterable<WordPos> values, Context context)
+	public void reduce(WordPos key, Iterable<WordPos> values, Context context)
 			throws IOException, InterruptedException {
 
 		String[] query = context.getConfiguration().get("query").split(" ");
@@ -42,8 +42,9 @@ public class RetvalCombi extends Reducer<Text, WordPos, Text, WordPos> {
 
 		wp.set(tmp);
 		wp.setW(score);
-		word.set(key + "_" + score);
-		context.write(word, wp);
+		KeyWeight.setW(score);
+		KeyWeight.set(key.toString());
+		context.write(KeyWeight, wp);
 
 	}
 }

@@ -11,7 +11,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 public class RetvalMapper extends Mapper<Text, Text, Text, WordPos> {
 	private WordPos wp = new WordPos();
-	private Text word = new Text();
+	private WordPos KeyWeight = new WordPos();
 
 	public void map(Text key, Text value, Context context) throws IOException,
 			InterruptedException {
@@ -25,7 +25,7 @@ public class RetvalMapper extends Mapper<Text, Text, Text, WordPos> {
 
 		String fileName;
 		df = Integer.parseInt(itr.nextToken());
-
+		double w;
 		for (int i = 0; i < df; i++) {
 			String offset = "";
 			fileName = itr.nextToken();
@@ -34,12 +34,12 @@ public class RetvalMapper extends Mapper<Text, Text, Text, WordPos> {
 			for (int j = 0; j < tf; j++) {
 				offset = offset + " " + itr.nextToken();
 			}
-
+			
 			wp.setW((double) tf * Math.log10((double) N / (double) df));
 			wp.set(key.toString()+" "+offset);
-			word.set(fileName);
+			KeyWeight.set(fileName);
 
-			context.write(word, wp);
+			context.write(KeyWeight, wp);
 		}
 
 	}
