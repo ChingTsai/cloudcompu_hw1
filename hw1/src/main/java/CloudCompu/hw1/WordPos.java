@@ -17,6 +17,10 @@ public class WordPos extends Text {
 		return w;
 	}
 
+	public int compareTo(WordPos other) {
+		return this.toString().compareTo(other.toString());
+	}
+
 	@Override
 	public void write(DataOutput out) throws IOException {
 		super.write(out);
