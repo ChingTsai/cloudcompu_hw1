@@ -3,14 +3,13 @@ package CloudCompu.hw1;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.StringTokenizer;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.hadoop.conf.Configuration;
-
 import org.apache.hadoop.io.LongWritable;
-
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
@@ -29,14 +28,14 @@ public class InvIdxExMapper extends
 
 		Configuration conf = context.getConfiguration();
 		String str = conf.get("allFile");
-		String[] allFile = str.split(" ");
-
-		// Get File ID
-		int fileId = 0;
-		for (int i = 0; i < allFile.length; i++) {
-			if (allFile[i].equals(filename)) {
-				fileId = i;
+		StringTokenizer itr = new StringTokenizer(str);
+		int fileId = 0,idx = 0;
+		while (itr.hasMoreTokens()) {
+			String s = itr.nextToken();
+			if (s.equals(filename)) {
+				fileId = idx;
 			}
+			idx++;
 		}
 
 		HashMap<String, LinkedList<LongWritable>> tmpMap = new HashMap<String, LinkedList<LongWritable>>();
