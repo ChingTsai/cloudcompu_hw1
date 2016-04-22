@@ -5,7 +5,7 @@ import org.apache.hadoop.mapreduce.Partitioner;
 
 public class RetvalPart extends Partitioner<Text, WordPos> {
 	public int getPartition(Text key, WordPos value, int numReduceTasks) {
-		int file_id = Character.getNumericValue(key.charAt(0));
+		int file_id = Integer.parseInt(key.toString().split("_")[0]);
 
 		return file_id / numReduceTasks;
 

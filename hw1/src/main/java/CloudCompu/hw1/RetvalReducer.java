@@ -30,14 +30,14 @@ public class RetvalReducer extends Reducer<Text, WordPos, Text, Text> {
 		for (WordPos val : values) {
 			if (val.getW() > 0D) {
 				file_id = Integer.parseInt(key.toString().split("_")[0]);
-				detString = detString + "Rank " + subRank + reducerId + ": "
+				detString = detString + "Rank " + (subRank + reducerId) + ": "
 						+ status_list[file_id].getPath().getName()
 						+ " score = " + Double.toString(val.getW()) + "\r\n";
 				detString = detString + "************************\r\n";
 				subRank++;
 				inFile = status_list[file_id].getPath();
 				String[] offsetList = val.toString().split("_");
-				for (int i = 0; i < offsetList.length - 1; i++) {
+				for (int i = 0; i < offsetList.length; i++) {
 					StringTokenizer itr = new StringTokenizer(offsetList[i]);
 					while (itr.hasMoreTokens()) {
 						fs.open(inFile).read(
@@ -50,7 +50,7 @@ public class RetvalReducer extends Reducer<Text, WordPos, Text, Text> {
 				}
 
 				detString = detString + "************************\r\n";
-				reducerId++;
+				
 			}
 		}
 
