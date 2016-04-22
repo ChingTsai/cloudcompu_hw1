@@ -13,17 +13,14 @@ public class RetvalSortCompare extends WritableComparator {
 		WordPos t1 = (WordPos) w1;
 		WordPos t2 = (WordPos) w2;
 
-		int compare = t1.toString().compareTo(t2.toString());
-		if (compare == 0) {
-			Double d1 = t1.getW();
-			Double d2 = t2.getW();
-			if(d1.equals(d2))
-				return 0;
-			else if(d1 > d2)
-				return 1;
-			else
-				return -1;
-		}
-		return compare;
+		Double d1 = t1.getW();
+		Double d2 = t2.getW();
+		if (d1.equals(d2))
+			return 0;
+		else if (d1 > d2)
+			return 1;
+		else
+			return -1;
+
 	}
 }
