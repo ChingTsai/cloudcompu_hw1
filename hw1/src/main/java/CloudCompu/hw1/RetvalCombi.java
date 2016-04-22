@@ -29,7 +29,7 @@ public class RetvalCombi extends Reducer<Text, WordPos, Text, WordPos> {
 			if (h.contains(str[0])) {
 				score += val.getW();
 				for (int i = 1; i < str.length; i++) {
-					tmp = tmp + str[i];
+					tmp = tmp + " " + str[i];
 				}
 				wp.set(tmp);
 				wp.setW(score);
