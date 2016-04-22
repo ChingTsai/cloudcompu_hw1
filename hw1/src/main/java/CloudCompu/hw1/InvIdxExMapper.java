@@ -29,7 +29,7 @@ public class InvIdxExMapper extends
 		Configuration conf = context.getConfiguration();
 		String str = conf.get("allFile");
 		StringTokenizer itr = new StringTokenizer(str);
-		int fileId = 0,idx = 0;
+		int fileId = 0, idx = 0;
 		while (itr.hasMoreTokens()) {
 			String s = itr.nextToken();
 			if (s.equals(filename)) {

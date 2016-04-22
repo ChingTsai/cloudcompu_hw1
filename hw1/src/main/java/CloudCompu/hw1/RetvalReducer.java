@@ -30,7 +30,7 @@ public class RetvalReducer extends Reducer<Text, WordPos, Text, Text> {
 		for (WordPos val : values) {
 			file_id = Integer.parseInt(key.toString().split("_")[0]);
 			detString = detString + "Rank " + subRank + reducerId + ": "
-					+ status_list[file_id-1].getPath().getName() + " score = "
+					+ status_list[file_id].getPath().getName() + " score = "
 					+ Double.toString(val.getW()) + "\r\n";
 			detString = detString + "************************\r\n";
 			subRank++;
