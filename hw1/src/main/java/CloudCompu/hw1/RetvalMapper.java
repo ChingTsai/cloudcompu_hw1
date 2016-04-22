@@ -9,34 +9,37 @@ import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class RetvalMapper extends Mapper<Text, Text, Text, MapWritable> {
-	private MapWritable map = new MapWritable();
+public class RetvalMapper extends Mapper<Text, Text, Text, WordPos> {
+	private WordPos wp = new WordPos();
 	private Text word = new Text();
 
-	public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
-
+	public void map(Text key, Text value, Context context) throws IOException,
+			InterruptedException {
+		int N = Integer.parseInt(context.getConfiguration().get("N"));
 		// Replace nonAlphabetic with space
 
-		StringTokenizer itr = new StringTokenizer(value.toString().replaceAll("[\\Q][,;>\\E]", " "));
+		StringTokenizer itr = new StringTokenizer(value.toString().replaceAll(
+				"[\\Q][,;>\\E]", " "));
 
-		int df, tf, N;
+		int df, tf;
 
-		LinkedList<DoubleWritable> l = new LinkedList<DoubleWritable>();
 		String fileName;
 		df = Integer.parseInt(itr.nextToken());
+
 		for (int i = 0; i < df; i++) {
-			N = Integer.parseInt(itr.nextToken());
+			String offset = "";
 			fileName = itr.nextToken();
 			tf = Integer.parseInt(itr.nextToken());
-			l.clear();
+
 			for (int j = 0; j < tf; j++) {
-				l.add(new DoubleWritable(Long.parseLong(itr.nextToken())));
+				offset = offset + " " + Long.parseLong(itr.nextToken());
 			}
-			l.add(new DoubleWritable((double) tf * Math.log((double) N / (double) df)));
+
+			wp.setW((double) tf * Math.log10((double) N / (double) df));
+			wp.set(key.toString()+" "+offset);
 			word.set(fileName);
-			map.put(new Text(key.toString()),
-					new DoubleArrayWritable((DoubleWritable[]) l.toArray(new DoubleWritable[l.size()])));
-			context.write(word, map);
+
+			context.write(word, wp);
 		}
 
 	}
