@@ -31,13 +31,14 @@ public class Retrieval {
 		// set input format
 		// setthe class of each stage in mapreduce
 		job.setMapperClass(RetvalMapper.class);
-		job.setPartitionerClass(InvIdxPart.class);
+		job.setPartitionerClass(RetvalPart.class);
 		job.setReducerClass(RetvalReducer.class);
+		job.setGroupingComparatorClass(RetvalGpCompare.class);
 		job.setCombinerClass(RetvalCombi.class);
 
 		// set the output class of Mapper and Reducer
 		job.setMapOutputKeyClass(Text.class);
-		job.setMapOutputValueClass(MapWritable.class);
+		job.setMapOutputValueClass(WordPos.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
 
