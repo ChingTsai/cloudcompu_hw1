@@ -13,7 +13,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class Retrieval {
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
-		String query ="Cat fly";
+		String query ="Cat bag";
 		conf.set("query", query);
 		FileSystem fs = FileSystem.get(conf);
 		// get the FileStatus list from given dir
