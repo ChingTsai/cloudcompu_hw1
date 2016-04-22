@@ -13,7 +13,7 @@ public class RetvalGpCompare extends WritableComparator {
 		Text t1 = (Text) w1;
 		Text t2 = (Text) w2;
 		double s1 = Double.parseDouble(t1.toString().split("_")[1]);
-		double s2 = Double.parseDouble(t2.toString().split("_")[2]);
+		double s2 = Double.parseDouble(t2.toString().split("_")[1]);
 		if (s1 == s2)
 			return 0;
 		else if (s1 > s2)
