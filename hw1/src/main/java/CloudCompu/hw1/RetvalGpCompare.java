@@ -12,7 +12,6 @@ public class RetvalGpCompare extends WritableComparator {
 	public int compare(WritableComparable w1, WritableComparable w2) {
 		WordPos t1 = (WordPos) w1;
 		WordPos t2 = (WordPos) w2;
-		return t1.toString().split("_")[0]
-				.compareTo(t2.toString().split("_")[0]);
+		return t1.toString().compareTo(t2.toString());
 	}
 }

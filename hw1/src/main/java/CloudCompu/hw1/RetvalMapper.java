@@ -9,7 +9,7 @@ import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class RetvalMapper extends Mapper<Text, Text, Text, WordPos> {
+public class RetvalMapper extends Mapper<Text, Text, WordPos, WordPos> {
 	private WordPos wp = new WordPos();
 	private WordPos KeyWeight = new WordPos();
 
