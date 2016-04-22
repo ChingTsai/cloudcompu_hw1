@@ -15,12 +15,6 @@ public class RetvalSortCompare extends WritableComparator {
 
 		Double d1 = t1.getW();
 		Double d2 = t2.getW();
-		if (d1.equals(d2))
-			return 0;
-		else if (d1 > d2)
-			return 1;
-		else
-			return -1;
-
+		return Double.compare(d1, d2);
 	}
 }
