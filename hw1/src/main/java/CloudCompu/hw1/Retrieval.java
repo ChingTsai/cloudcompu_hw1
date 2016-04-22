@@ -20,9 +20,11 @@ public class Retrieval {
 		// get the FileStatus list from given dir
 		FileStatus[] status_list = fs.listStatus(new Path(args[1]));
 		int N = status_list.length;
-
 		conf.set("N", "" + N);
 
+		conf.set("inputDir", args[1]);
+		
+		
 		// Store global query for later usage
 		Job job = Job.getInstance(conf, "Retrieval");
 		job.setJarByClass(Retrieval.class);

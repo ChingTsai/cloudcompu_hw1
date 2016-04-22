@@ -17,7 +17,6 @@ public class InvertedIndex {
 		FileSystem fs = FileSystem.get(conf);
 		// get the FileStatus list from given dir
 		FileStatus[] status_list = fs.listStatus(new Path(args[0]));
-		conf.set("inputDir", args[0]);
 		String allFile = "";
 		if (status_list != null) {
 			for (FileStatus status : status_list) {
