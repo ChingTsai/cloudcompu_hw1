@@ -39,7 +39,7 @@ public class Retrieval {
 		job.setSortComparatorClass(RetvalSortCompare.class);
 
 		// set the output class of Mapper and Reducer
-		job.setMapOutputKeyClass(Text.class);
+		job.setMapOutputKeyClass(WordPos.class);
 		job.setMapOutputValueClass(WordPos.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
