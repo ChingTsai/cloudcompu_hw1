@@ -43,11 +43,12 @@ public class RetvalReducer extends Reducer<Text, WordPos, Text, Text> {
 						fs.open(inFile).read(
 								Long.parseLong(itr.nextToken()) - 50L, buffer,
 								0, 100);
+						detString = detString
+								+ new String(buffer, Charset.forName("UTF-8"));
 						detString = detString + "\r\n";
 					}
 				}
-				detString = detString
-						+ new String(buffer, Charset.forName("UTF-8"));
+
 
 				detString = detString + "************************\r\n";
 			}
