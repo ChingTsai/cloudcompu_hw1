@@ -18,27 +18,32 @@ public class RetvalCombi extends Reducer<Text, WordPos, Text, WordPos> {
 
 	public void reduce(Text key, Iterable<WordPos> values, Context context)
 			throws IOException, InterruptedException {
-		double score = 0D;
+
 		String[] query = context.getConfiguration().get("query").split(" ");
 		HashSet<String> h = new HashSet<String>();
 		for (String q : query)
 			h.add(q);
+		String tmp = "";
+		double score = 0D;
 		for (WordPos val : values) {
 			String[] str = val.toString().split(" ");
-			String tmp = "";
+
 			if (h.contains(str[0])) {
 				score += val.getW();
 				tmp = str[1];
 				for (int i = 2; i < str.length; i++) {
 					tmp = tmp + " " + str[i];
 				}
-				wp.set(tmp);
-				wp.setW(score);
-				word.set(key + "_" + score);
-				context.write(word, wp);
+
+				tmp = tmp + "_";
 			}
 
 		}
+
+		wp.set(tmp);
+		wp.setW(score);
+		word.set(key + "_" + score);
+		context.write(word, wp);
 
 	}
 }
