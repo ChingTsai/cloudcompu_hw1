@@ -28,26 +28,29 @@ public class RetvalReducer extends Reducer<Text, WordPos, Text, Text> {
 		Path inFile;
 		byte[] buffer = new byte[100];
 		for (WordPos val : values) {
-			file_id = Integer.parseInt(key.toString().split("_")[0]);
-			detString = detString + "Rank " + subRank + reducerId + ": "
-					+ status_list[file_id].getPath().getName() + " score = "
-					+ Double.toString(val.getW()) + "\r\n";
-			detString = detString + "************************\r\n";
-			subRank++;
-			inFile = status_list[file_id].getPath();
-			String[] offsetList = val.toString().split("_");
-			for (int i = 0; i < offsetList.length ; i++) {
-				StringTokenizer itr = new StringTokenizer(offsetList[i]);
-				while (itr.hasMoreTokens()) {
-					fs.open(inFile).read(Long.parseLong(itr.nextToken()) - 50L,
-							buffer, 0, 100);
-					detString = detString + "\r\n";
+			if (val.getW() > 0D) {
+				file_id = Integer.parseInt(key.toString().split("_")[0]);
+				detString = detString + "Rank " + subRank + reducerId + ": "
+						+ status_list[file_id].getPath().getName()
+						+ " score = " + Double.toString(val.getW()) + "\r\n";
+				detString = detString + "************************\r\n";
+				subRank++;
+				inFile = status_list[file_id].getPath();
+				String[] offsetList = val.toString().split("_");
+				for (int i = 0; i < offsetList.length; i++) {
+					StringTokenizer itr = new StringTokenizer(offsetList[i]);
+					while (itr.hasMoreTokens()) {
+						fs.open(inFile).read(
+								Long.parseLong(itr.nextToken()) - 50L, buffer,
+								0, 100);
+						detString = detString + "\r\n";
+					}
 				}
-			}
-			detString = detString
-					+ new String(buffer, Charset.forName("UTF-8"));
+				detString = detString
+						+ new String(buffer, Charset.forName("UTF-8"));
 
-			detString = detString + "************************\r\n";
+				detString = detString + "************************\r\n";
+			}
 		}
 
 		detail.set(detString);
