@@ -32,7 +32,7 @@ public class RetvalMapper extends Mapper<Text, Text, Text, WordPos> {
 			tf = Integer.parseInt(itr.nextToken());
 
 			for (int j = 0; j < tf; j++) {
-				offset = offset + " " + Long.parseLong(itr.nextToken());
+				offset = offset + " " + itr.nextToken();
 			}
 
 			wp.setW((double) tf * Math.log10((double) N / (double) df));

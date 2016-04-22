@@ -2,6 +2,8 @@ package CloudCompu.hw1;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.StringTokenizer;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
@@ -12,7 +14,8 @@ import org.apache.hadoop.mapreduce.Reducer;
 public class RetvalReducer extends Reducer<Text, WordPos, Text, Text> {
 	private Text detail = new Text();
 
-	public void reduce(Text key, Iterable<WordPos> values, Context context) throws IOException, InterruptedException {
+	public void reduce(Text key, Iterable<WordPos> values, Context context)
+			throws IOException, InterruptedException {
 		Configuration conf = new Configuration();
 		FileSystem fs = FileSystem.get(conf);
 		String inputDir = context.getConfiguration().get("inputDir");
@@ -26,15 +29,19 @@ public class RetvalReducer extends Reducer<Text, WordPos, Text, Text> {
 		byte[] buffer = new byte[1024];
 		for (WordPos val : values) {
 			file_id = Integer.parseInt(key.toString().split("_")[0]);
-			detString = detString + "Rank " + subRank + reducerId + ": " + status_list[file_id] + " score = "
+			detString = detString + "Rank " + subRank + reducerId + ": "
+					+ status_list[file_id] + " score = "
 					+ Double.toString(val.getW()) + "\r\n";
 			detString = detString + "************************\r\n";
 			subRank++;
 			inFile = status_list[file_id].getPath();
-			for (String o : val.toString().split(" ")) {
-				fs.open(inFile).read(Long.parseLong(o) - 50L, buffer, 0, 1024);
-				detString = detString + new String(buffer, Charset.forName("UTF-8"));
-			}
+			StringTokenizer itr = new StringTokenizer(val.toString());
+
+			fs.open(inFile).read(Long.parseLong(itr.nextToken()) - 50L, buffer,
+					0, 1024);
+			detString = detString
+					+ new String(buffer, Charset.forName("UTF-8"));
+
 			detString = detString + "************************\r\n";
 		}
 
