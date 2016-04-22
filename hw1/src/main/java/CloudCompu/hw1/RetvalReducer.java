@@ -36,7 +36,7 @@ public class RetvalReducer extends Reducer<Text, WordPos, Text, Text> {
 			subRank++;
 			inFile = status_list[file_id].getPath();
 			String[] offsetList = val.toString().split("_");
-			for (int i = 0; i < offsetList.length - 1; i++) {
+			for (int i = 0; i < offsetList.length ; i++) {
 				StringTokenizer itr = new StringTokenizer(offsetList[i]);
 				while (itr.hasMoreTokens()) {
 					fs.open(inFile).read(Long.parseLong(itr.nextToken()) - 50L,
