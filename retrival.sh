@@ -5,5 +5,5 @@
 #hdfs dfs -cat /user/TA/WordCount/Output/part-*
 
 hdfs dfs -rm -r output
-hadoop jar ${PWD##*/}.jar CloudCompu.hw1.Retrieval invidx output
+hadoop jar ${PWD##*/}.jar CloudCompu.hw1.Retrieval invidx input output
 hdfs dfs -cat output/part-*
