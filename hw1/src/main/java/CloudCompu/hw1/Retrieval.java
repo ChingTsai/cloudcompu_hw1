@@ -51,11 +51,13 @@ public class Retrieval {
 		// add input/output path
 		FileInputFormat.addInputPath(job1, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job1, new Path("tmp"));
-		//System.exit(job1.waitForCompletion(true) ? 0 : 1);
+		
+		job1.waitForCompletion(true);
+		
 		
 		Configuration conf2 = new Configuration();
 		conf2.set("inputDir", args[1]);	
-		Job job2 = Job.getInstance(conf2, "Retrieval");
+		Job job2 = Job.getInstance(conf2, "Retrieval_2nd");
 		job2.setJarByClass(Retrieval.class);
 		job2.setInputFormatClass(KeyValueTextInputFormat.class);
 		job2.setMapperClass(Retval2ndMapper.class);
@@ -72,6 +74,9 @@ public class Retrieval {
 		// add input/output path
 		FileInputFormat.addInputPath(job2, new Path("tmp"));
 		FileOutputFormat.setOutputPath(job2, new Path(args[2]));
+		
+		System.exit(job2.waitForCompletion(true) ? 0 : 1);
+		/*
 		ControlledJob cjob1 = new ControlledJob(new Configuration());
 		ControlledJob cjob2 = new ControlledJob(new Configuration());
 		cjob1.setJob(job1);
@@ -80,7 +85,7 @@ public class Retrieval {
 		JobControl jbcntrl=new JobControl("jbcntrl");
 		jbcntrl.addJob(cjob1);
 		jbcntrl.addJob(cjob2);
-		jbcntrl.run();
+		jbcntrl.run();*/
 		
 	}
 }
