@@ -12,8 +12,9 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.Reducer.Context;
 
-public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text>{
+public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text> {
 	private Text detail = new Text();
+
 	public void reduce(Text key, Iterable<WordPos> values, Context context)
 			throws IOException, InterruptedException {
 		Configuration conf = new Configuration();
@@ -44,7 +45,8 @@ public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text>{
 								Long.parseLong(itr.nextToken()) - 10L, buffer,
 								0, 20);
 						detString = detString
-								+ new String(buffer, Charset.forName("UTF-8"));
+								+ (new String(buffer, Charset.forName("UTF-8")))
+										.replaceAll("\\s", "");
 						detString = detString + "\r\n";
 					}
 				}
