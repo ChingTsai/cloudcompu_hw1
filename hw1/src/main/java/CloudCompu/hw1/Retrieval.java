@@ -1,6 +1,5 @@
 package CloudCompu.hw1;
 
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
@@ -17,17 +16,14 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class Retrieval {
 	public static void main(String[] args) throws Exception {
 		Configuration conf1 = new Configuration();
-		
-		String query =args[3];
-		
-		
-		conf1.set("query", query);
+
+		conf1.set("query", args[3]);
 		FileSystem fs = FileSystem.get(conf1);
 		// get the FileStatus list from given dir
 		FileStatus[] status_list = fs.listStatus(new Path(args[1]));
 		int N = status_list.length;
 		conf1.set("N", "" + N);
-		conf1.set("inputDir", args[1]);	
+		conf1.set("inputDir", args[1]);
 		// Store global query for later usage
 		Job job1 = Job.getInstance(conf1, "Retrieval");
 		job1.setJarByClass(Retrieval.class);
@@ -38,9 +34,9 @@ public class Retrieval {
 		job1.setMapperClass(RetvalMapper.class);
 		job1.setPartitionerClass(RetvalPart.class);
 		job1.setReducerClass(RetvalNewReduce.class);
-		//job.setGroupingComparatorClass(RetvalGpCompare.class);
-		//job.setCombinerClass(RetvalNewCombi.class);
-		//job.setSortComparatorClass(RetvalSortCompare.class);
+		// job.setGroupingComparatorClass(RetvalGpCompare.class);
+		// job.setCombinerClass(RetvalNewCombi.class);
+		// job.setSortComparatorClass(RetvalSortCompare.class);
 
 		// set the output class of Mapper and Reducer
 		job1.setMapOutputKeyClass(Text.class);
@@ -54,12 +50,11 @@ public class Retrieval {
 		// add input/output path
 		FileInputFormat.addInputPath(job1, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job1, new Path("tmp"));
-		
+
 		job1.waitForCompletion(true);
-		
-		
+
 		Configuration conf2 = new Configuration();
-		conf2.set("inputDir", args[1]);	
+		conf2.set("inputDir", args[1]);
 		Job job2 = Job.getInstance(conf2, "Retrieval_2nd");
 		job2.setJarByClass(Retrieval.class);
 		job2.setInputFormatClass(KeyValueTextInputFormat.class);
@@ -77,18 +72,15 @@ public class Retrieval {
 		// add input/output path
 		FileInputFormat.addInputPath(job2, new Path("tmp"));
 		FileOutputFormat.setOutputPath(job2, new Path(args[2]));
-		
+
 		System.exit(job2.waitForCompletion(true) ? 0 : 1);
 		/*
-		ControlledJob cjob1 = new ControlledJob(new Configuration());
-		ControlledJob cjob2 = new ControlledJob(new Configuration());
-		cjob1.setJob(job1);
-		cjob2.setJob(job2);
-		cjob2.addDependingJob(cjob1);
-		JobControl jbcntrl=new JobControl("jbcntrl");
-		jbcntrl.addJob(cjob1);
-		jbcntrl.addJob(cjob2);
-		jbcntrl.run();*/
-		
+		 * ControlledJob cjob1 = new ControlledJob(new Configuration());
+		 * ControlledJob cjob2 = new ControlledJob(new Configuration());
+		 * cjob1.setJob(job1); cjob2.setJob(job2); cjob2.addDependingJob(cjob1);
+		 * JobControl jbcntrl=new JobControl("jbcntrl"); jbcntrl.addJob(cjob1);
+		 * jbcntrl.addJob(cjob2); jbcntrl.run();
+		 */
+
 	}
 }

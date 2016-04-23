@@ -15,7 +15,7 @@ public class RetvalNewReduce extends Reducer<Text, WordPos, Text, Text> {
 	public void reduce(Text key, Iterable<WordPos> values, Context context)
 			throws IOException, InterruptedException {
 
-		String[] query = context.getConfiguration().get("query").split("+");
+		String[] query = context.getConfiguration().get("query").split(" ");
 		HashSet<String> h = new HashSet<String>();
 		for (String q : query)
 			h.add(q);
