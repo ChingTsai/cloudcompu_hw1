@@ -13,7 +13,7 @@ public class RetvalSortCompare extends WritableComparator {
 		Text t1 = (Text) w1;
 		Text t2 = (Text) w2;
 
-		return Double.compare(Double.parseDouble(t1.toString()),
-				Double.parseDouble(t2.toString()));
+		return Double.compare(Double.parseDouble(t1.toString().split("_")[1]),
+				Double.parseDouble(t2.toString().split("_")[1]));
 	}
 }
