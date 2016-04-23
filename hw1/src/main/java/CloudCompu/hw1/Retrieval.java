@@ -42,7 +42,7 @@ public class Retrieval {
 		job.setMapOutputKeyClass(Text.class);
 		job.setMapOutputValueClass(WordPos.class);
 		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(Text.class);
+		job.setOutputValueClass(WordPos.class);
 
 		// set the number of reducer
 		job.setNumReduceTasks(1);

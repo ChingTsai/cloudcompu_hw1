@@ -7,9 +7,9 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.Reducer.Context;
 
-public class RetvalNewReduce extends Reducer<Text, WordPos, Text, Text> {
-	private Text detail = new Text();
-	private Text KeyWeight = new Text();
+public class RetvalNewReduce extends Reducer<Text, WordPos, Text, WordPos> {
+	private Text Score = new Text();
+	private WordPos KeyWeight = new WordPos();
 
 	public void reduce(Text key, Iterable<WordPos> values, Context context)
 			throws IOException, InterruptedException {
@@ -34,9 +34,11 @@ public class RetvalNewReduce extends Reducer<Text, WordPos, Text, Text> {
 			}
 
 		}
-
-		detail.set(score + " " + tmp);
-		context.write(key, detail);
+		Score.set(""+score);
+		KeyWeight.set(tmp);
+		KeyWeight.setfile_id(Integer.parseInt(key.toString()));
+		
+		context.write(Score, KeyWeight);
 
 	}
 }
