@@ -47,7 +47,7 @@ public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text> {
 						fs.open(inFile).read(pos - 25L, buffer, 0, 50);
 						detString = detString
 								+ "   "
-								+ pos
+								+ pos+"   "
 								+ (new String(buffer, Charset.forName("UTF-8")))
 										.replaceAll("\r|\n", "");
 						detString = detString + "\r\n";
