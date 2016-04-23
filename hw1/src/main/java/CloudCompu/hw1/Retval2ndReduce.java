@@ -1,6 +1,5 @@
 package CloudCompu.hw1;
 
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.StringTokenizer;
@@ -11,10 +10,10 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.Reducer.Context;
 
-public class RetvalReducer extends Reducer<Text, WordPos, Text, Text> {
+public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text>{
 	private Text detail = new Text();
-
 	public void reduce(Text key, Iterable<WordPos> values, Context context)
 			throws IOException, InterruptedException {
 		Configuration conf = new Configuration();

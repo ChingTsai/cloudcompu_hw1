@@ -1,56 +1,85 @@
 package CloudCompu.hw1;
 
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapred.JobClient;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
+import org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob;
+import org.apache.hadoop.mapreduce.lib.jobcontrol.JobControl;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class Retrieval {
 	public static void main(String[] args) throws Exception {
-		Configuration conf = new Configuration();
+		Configuration conf1 = new Configuration();
 		String query ="cat bag";
-		conf.set("query", query);
-		FileSystem fs = FileSystem.get(conf);
+		conf1.set("query", query);
+		FileSystem fs = FileSystem.get(conf1);
 		// get the FileStatus list from given dir
 		FileStatus[] status_list = fs.listStatus(new Path(args[1]));
 		int N = status_list.length;
-		conf.set("N", "" + N);
-
-		conf.set("inputDir", args[1]);
-		
-		
+		conf1.set("N", "" + N);
+		conf1.set("inputDir", args[1]);	
 		// Store global query for later usage
-		Job job = Job.getInstance(conf, "Retrieval");
-		job.setJarByClass(Retrieval.class);
+		Job job1 = Job.getInstance(conf1, "Retrieval");
+		job1.setJarByClass(Retrieval.class);
 		// Get input from key value pair
-		job.setInputFormatClass(KeyValueTextInputFormat.class);
+		job1.setInputFormatClass(KeyValueTextInputFormat.class);
 		// set input format
 		// setthe class of each stage in mapreduce
-		job.setMapperClass(RetvalMapper.class);
-		job.setPartitionerClass(RetvalPart.class);
-		job.setReducerClass(RetvalNewReduce.class);
+		job1.setMapperClass(RetvalMapper.class);
+		job1.setPartitionerClass(RetvalPart.class);
+		job1.setReducerClass(RetvalNewReduce.class);
 		//job.setGroupingComparatorClass(RetvalGpCompare.class);
 		//job.setCombinerClass(RetvalNewCombi.class);
 		//job.setSortComparatorClass(RetvalSortCompare.class);
 
 		// set the output class of Mapper and Reducer
-		job.setMapOutputKeyClass(Text.class);
-		job.setMapOutputValueClass(WordPos.class);
-		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(WordPos.class);
+		job1.setMapOutputKeyClass(Text.class);
+		job1.setMapOutputValueClass(WordPos.class);
+		job1.setOutputKeyClass(Text.class);
+		job1.setOutputValueClass(WordPos.class);
 
 		// set the number of reducer
-		job.setNumReduceTasks(1);
+		job1.setNumReduceTasks(1);
 
 		// add input/output path
-		FileInputFormat.addInputPath(job, new Path(args[0]));
-		FileOutputFormat.setOutputPath(job, new Path(args[2]));
+		FileInputFormat.addInputPath(job1, new Path(args[0]));
+		FileOutputFormat.setOutputPath(job1, new Path("tmp"));
+		
+		Configuration conf2 = new Configuration();
+		conf2.set("inputDir", args[1]);	
+		Job job2 = Job.getInstance(conf2, "Retrieval");
+		job2.setJarByClass(Retrieval.class);
+		job2.setInputFormatClass(KeyValueTextInputFormat.class);
+		job2.setMapperClass(Retval2ndMapper.class);
+		job2.setPartitionerClass(RetvalPart.class);
+		job2.setSortComparatorClass(RetvalSortCompare.class);
+		job2.setGroupingComparatorClass(RetvalGpCompare.class);
+		job1.setReducerClass(Retval2ndReduce.class);
+		job2.setMapOutputKeyClass(Text.class);
+		job2.setMapOutputValueClass(WordPos.class);
+		job2.setOutputKeyClass(Text.class);
+		job2.setOutputValueClass(Text.class);
+		job2.setNumReduceTasks(1);
 
-		System.exit(job.waitForCompletion(true) ? 0 : 1);
+		// add input/output path
+		FileInputFormat.addInputPath(job2, new Path("tmp"));
+		FileOutputFormat.setOutputPath(job2, new Path(args[2]));
+		ControlledJob cjob1 = new ControlledJob(new Configuration());
+		ControlledJob cjob2 = new ControlledJob(new Configuration());
+		cjob1.setJob(job1);
+		cjob2.setJob(job2);
+		cjob2.addDependingJob(cjob1);
+		JobControl jbcntrl=new JobControl("jbcntrl");
+		jbcntrl.addJob(cjob1);
+		jbcntrl.addJob(cjob2);
+		jbcntrl.run();
+		//System.exit(job2.waitForCompletion(true) ? 0 : 1);
 	}
 }
