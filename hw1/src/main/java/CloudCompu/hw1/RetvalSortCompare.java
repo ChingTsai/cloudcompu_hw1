@@ -16,7 +16,7 @@ public class RetvalSortCompare extends WritableComparator {
 		s1 = t1.toString().split("_");
 		s2 = t2.toString().split("_");
 		if (s1.length == 1) {
-			return s1[0].compareTo(s2[0]);
+			return t1.compareTo(t2);
 		} else {
 			return Double.compare(Double.parseDouble(s1[1]),
 					Double.parseDouble(s2[1]));
