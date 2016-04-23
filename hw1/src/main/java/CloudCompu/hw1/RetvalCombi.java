@@ -14,7 +14,7 @@ import org.apache.hadoop.mapreduce.Reducer.Context;
 
 public class RetvalCombi extends Reducer<Text, WordPos, Text, WordPos> {
 	private WordPos wp = new WordPos();
-	private Text KeyWeight = new WordPos();
+	private Text KeyWeight = new Text();
 
 	public void reduce(Text key, Iterable<WordPos> values, Context context)
 			throws IOException, InterruptedException {
