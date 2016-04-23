@@ -43,7 +43,7 @@ public class RetvalCombi extends Reducer<Text, WordPos, Text, WordPos> {
 		wp.set(tmp);
 		wp.setW(score);
 		wp.setfile_id(Integer.parseInt(key.toString()));
-		KeyWeight.set("Result_"+score);
+		KeyWeight.set("Result");
 		context.write(KeyWeight, wp);
 
 	}
