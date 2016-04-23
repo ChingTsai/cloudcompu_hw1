@@ -35,8 +35,8 @@ public class Retrieval {
 		job.setPartitionerClass(RetvalPart.class);
 		job.setReducerClass(RetvalNewReduce.class);
 		//job.setGroupingComparatorClass(RetvalGpCompare.class);
-		job.setCombinerClass(RetvalNewCombi.class);
-		job.setSortComparatorClass(RetvalSortCompare.class);
+		//job.setCombinerClass(RetvalNewCombi.class);
+		//job.setSortComparatorClass(RetvalSortCompare.class);
 
 		// set the output class of Mapper and Reducer
 		job.setMapOutputKeyClass(Text.class);
