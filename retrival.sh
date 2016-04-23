@@ -6,5 +6,5 @@
 
 hdfs dfs -rm -r output
 hdfs dfs -rm -r tmp
-hadoop jar ${PWD##*/}.jar CloudCompu.hw1.Retrieval invidx input output "cat bag" 1 
+hadoop jar ${PWD##*/}.jar CloudCompu.hw1.Retrieval invidx input output "catch bag" 1 
 hdfs dfs -cat output/part-*
