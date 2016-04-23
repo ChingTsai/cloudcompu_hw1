@@ -19,7 +19,7 @@ public class WordPos extends Text {
 	}
 
 	public void setfile_id(int file_id) {
-		this.w = file_id;
+		this.file_id = file_id;
 	}
 
 	public int getfile_id() {
