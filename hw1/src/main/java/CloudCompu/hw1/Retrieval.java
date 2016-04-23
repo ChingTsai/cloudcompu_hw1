@@ -13,7 +13,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class Retrieval {
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
-		String query ="Cat bag";
+		String query ="cat bag";
 		conf.set("query", query);
 		FileSystem fs = FileSystem.get(conf);
 		// get the FileStatus list from given dir
@@ -34,9 +34,9 @@ public class Retrieval {
 		job.setMapperClass(RetvalMapper.class);
 		job.setPartitionerClass(RetvalPart.class);
 		job.setReducerClass(RetvalReducer.class);
-		//job.setGroupingComparatorClass(RetvalGpCompare.class);
+		job.setGroupingComparatorClass(RetvalGpCompare.class);
 		job.setCombinerClass(RetvalCombi.class);
-		//job.setSortComparatorClass(RetvalSortCompare.class);
+		job.setSortComparatorClass(RetvalSortCompare.class);
 
 		// set the output class of Mapper and Reducer
 		job.setMapOutputKeyClass(Text.class);
