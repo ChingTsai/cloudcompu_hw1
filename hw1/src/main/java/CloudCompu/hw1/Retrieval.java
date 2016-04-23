@@ -23,7 +23,8 @@ public class Retrieval {
 		FileStatus[] status_list = fs.listStatus(new Path(args[1]));
 		int N = status_list.length;
 		conf1.set("N", "" + N);
-		conf1.set("inputDir", args[1]);
+		
+		conf1.set("ignore", args[4]);
 		// Store global query for later usage
 		Job job1 = Job.getInstance(conf1, "Retrieval");
 		job1.setJarByClass(Retrieval.class);

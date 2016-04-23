@@ -54,6 +54,8 @@ public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text> {
 				detString = detString + "************************\r\n";
 
 			}
+			if (subRank == 10)
+				break;
 		}
 
 		detail.set(detString);

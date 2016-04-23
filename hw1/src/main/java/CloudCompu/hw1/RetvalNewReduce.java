@@ -1,6 +1,5 @@
 package CloudCompu.hw1;
 
-
 import java.io.IOException;
 import java.util.HashSet;
 
@@ -17,27 +16,52 @@ public class RetvalNewReduce extends Reducer<Text, WordPos, Text, Text> {
 
 		String[] query = context.getConfiguration().get("query").split(" ");
 		HashSet<String> h = new HashSet<String>();
-		for (String q : query)
-			h.add(q);
+
 		String tmp = "";
 		double score = 0D;
-		for (WordPos val : values) {
-			String[] str = val.toString().split(" ");
 
-			if (h.contains(str[0])) {
-				score += val.getW();
-				tmp = tmp + str[1];
-				for (int i = 2; i < str.length; i++) {
-					tmp = tmp + " " + str[i];
+		int ignore = Integer.parseInt(context.getConfiguration().get("ignore"));
+		if (ignore == 0) {
+			for (String q : query)
+				h.add(q);
+
+			for (WordPos val : values) {
+				String[] str = val.toString().split(" ");
+
+				if (h.contains(str[0])) {
+					score += val.getW();
+					tmp = tmp + str[1];
+					for (int i = 2; i < str.length; i++) {
+						tmp = tmp + " " + str[i];
+					}
+
+					tmp = tmp + "_";
 				}
 
-				tmp = tmp + "_";
 			}
+		} else {
+			for (String q : query)
+				h.add(q.toLowerCase());
 
+			for (WordPos val : values) {
+				String[] str = val.toString().split(" ");
+
+				if (h.contains(str[0].toLowerCase())) {
+					score += val.getW();
+					tmp = tmp + str[1];
+					for (int i = 2; i < str.length; i++) {
+						tmp = tmp + " " + str[i];
+					}
+
+					tmp = tmp + "_";
+				}
+
+			}
 		}
-		Score.set(""+score);
-		KeyWeight.set(key.toString()+"~"+tmp);
-		
+
+		Score.set("" + score);
+		KeyWeight.set(key.toString() + "~" + tmp);
+
 		context.write(Score, KeyWeight);
 
 	}
