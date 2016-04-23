@@ -33,10 +33,10 @@ public class Retrieval {
 		// setthe class of each stage in mapreduce
 		job.setMapperClass(RetvalMapper.class);
 		job.setPartitionerClass(RetvalPart.class);
-		job.setReducerClass(RetvalReducer.class);
+		job.setReducerClass(RetvalNewReduce.class);
 		//job.setGroupingComparatorClass(RetvalGpCompare.class);
-		job.setCombinerClass(RetvalCombi.class);
-		job.setSortComparatorClass(RetvalSortCompare.class);
+		//job.setCombinerClass(RetvalCombi.class);
+		//job.setSortComparatorClass(RetvalSortCompare.class);
 
 		// set the output class of Mapper and Reducer
 		job.setMapOutputKeyClass(Text.class);
