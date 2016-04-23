@@ -46,7 +46,7 @@ public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text> {
 								0, 20);
 						detString = detString
 								+ (new String(buffer, Charset.forName("UTF-8")))
-										.replaceAll("\r\n", "");
+										.replaceAll("\r|\n", "");
 						detString = detString + "\r\n";
 					}
 				}
