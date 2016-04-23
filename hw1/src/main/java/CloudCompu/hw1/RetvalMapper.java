@@ -36,7 +36,7 @@ public class RetvalMapper extends Mapper<Text, Text, WordPos, WordPos> {
 			}
 
 			wp.setW((double) tf * Math.log10((double) N / (double) df));
-			wp.set(key.toString()+" "+offset);
+			wp.set(key.toString()+offset);
 			KeyWeight.set(fileName);
 
 			context.write(KeyWeight, wp);
