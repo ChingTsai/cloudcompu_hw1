@@ -64,7 +64,7 @@ public class Retrieval {
 		job2.setPartitionerClass(RetvalPart.class);
 		job2.setSortComparatorClass(RetvalSortCompare.class);
 		job2.setGroupingComparatorClass(RetvalGpCompare.class);
-		job1.setReducerClass(Retval2ndReduce.class);
+		job2.setReducerClass(Retval2ndReduce.class);
 		job2.setMapOutputKeyClass(Text.class);
 		job2.setMapOutputValueClass(WordPos.class);
 		job2.setOutputKeyClass(Text.class);
