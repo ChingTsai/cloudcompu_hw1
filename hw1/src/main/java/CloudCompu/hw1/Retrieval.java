@@ -43,7 +43,7 @@ public class Retrieval {
 		job1.setMapOutputKeyClass(Text.class);
 		job1.setMapOutputValueClass(WordPos.class);
 		job1.setOutputKeyClass(Text.class);
-		job1.setOutputValueClass(WordPos.class);
+		job1.setOutputValueClass(Text.class);
 
 		// set the number of reducer
 		job1.setNumReduceTasks(1);
@@ -51,8 +51,8 @@ public class Retrieval {
 		// add input/output path
 		FileInputFormat.addInputPath(job1, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job1, new Path("tmp"));
-		System.exit(job1.waitForCompletion(true) ? 0 : 1);
-		/*
+		//System.exit(job1.waitForCompletion(true) ? 0 : 1);
+		
 		Configuration conf2 = new Configuration();
 		conf2.set("inputDir", args[1]);	
 		Job job2 = Job.getInstance(conf2, "Retrieval");
@@ -80,7 +80,7 @@ public class Retrieval {
 		JobControl jbcntrl=new JobControl("jbcntrl");
 		jbcntrl.addJob(cjob1);
 		jbcntrl.addJob(cjob2);
-		jbcntrl.run();*/
-		//
+		jbcntrl.run();
+		
 	}
 }
