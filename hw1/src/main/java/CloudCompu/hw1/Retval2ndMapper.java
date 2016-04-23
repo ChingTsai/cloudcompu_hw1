@@ -11,7 +11,7 @@ import org.apache.hadoop.mapreduce.Mapper.Context;
 public class Retval2ndMapper extends Mapper<Text, Text, Text, WordPos>{
 	private WordPos KeyWeight = new WordPos();
 
-	public void map(Text key, WordPos value, Context context) throws IOException,
+	public void map(Text key, Text value, Context context) throws IOException,
 			InterruptedException {
 		String[] s = value.toString().split("~");
 		KeyWeight.set(s[1]);
