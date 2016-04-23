@@ -8,7 +8,7 @@ public class RetvalPart extends Partitioner<Text, WordPos> {
 
 		int file_id = Integer.parseInt(key.toString());
 
-		return file_id / 48;
+		return 0;
 
 	}
 }

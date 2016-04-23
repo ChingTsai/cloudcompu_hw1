@@ -12,6 +12,6 @@ public class RetvalGpCompare extends WritableComparator {
 	public int compare(WritableComparable w1, WritableComparable w2) {
 		Text t1 = (Text) w1;
 		Text t2 = (Text) w2;
-		return t1.charAt(0) - t2.charAt(0);
+		return 0;
 	}
 }
