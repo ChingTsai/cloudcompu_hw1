@@ -36,7 +36,7 @@ public class RetvalNewReduce extends Reducer<Text, WordPos, Text, Text> {
 		}
 
 		detail.set(score + " " + tmp);
-		context.write(KeyWeight, detail);
+		context.write(key, detail);
 
 	}
 }
