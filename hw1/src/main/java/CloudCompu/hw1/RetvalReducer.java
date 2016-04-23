@@ -11,10 +11,10 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class RetvalReducer extends Reducer<WordPos, WordPos, Text, Text> {
+public class RetvalReducer extends Reducer<Text, WordPos, Text, Text> {
 	private Text detail = new Text();
 
-	public void reduce(WordPos key, Iterable<WordPos> values, Context context)
+	public void reduce(Text key, Iterable<WordPos> values, Context context)
 			throws IOException, InterruptedException {
 		Configuration conf = new Configuration();
 		FileSystem fs = FileSystem.get(conf);
@@ -29,7 +29,7 @@ public class RetvalReducer extends Reducer<WordPos, WordPos, Text, Text> {
 		byte[] buffer = new byte[50];
 		for (WordPos val : values) {
 			if (val.getW() > 0D) {
-				file_id = Integer.parseInt(key.toString());
+				file_id = val.getfile_id();
 				detString = detString + "Rank " + (subRank + reducerId) + ": "
 						+ status_list[file_id].getPath().getName()
 						+ " score = " + Double.toString(val.getW()) + "\r\n";

@@ -9,9 +9,9 @@ import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class RetvalMapper extends Mapper<Text, Text, WordPos, WordPos> {
+public class RetvalMapper extends Mapper<Text, Text, Text, WordPos> {
 	private WordPos wp = new WordPos();
-	private WordPos KeyWeight = new WordPos();
+	private Text KeyWeight = new WordPos();
 
 	public void map(Text key, Text value, Context context) throws IOException,
 			InterruptedException {

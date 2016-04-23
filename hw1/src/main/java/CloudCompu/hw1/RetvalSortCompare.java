@@ -6,15 +6,14 @@ import org.apache.hadoop.io.WritableComparator;
 
 public class RetvalSortCompare extends WritableComparator {
 	protected RetvalSortCompare() {
-		super(WordPos.class, true);
+		super(Text.class, true);
 	}
 
 	public int compare(WritableComparable w1, WritableComparable w2) {
-		WordPos t1 = (WordPos) w1;
-		WordPos t2 = (WordPos) w2;
+		Text t1 = (Text) w1;
+		Text t2 = (Text) w2;
 
-		Double d1 = t1.getW();
-		Double d2 = t2.getW();
-		return Double.compare(d1, d2);
+		return Double.compare(Double.parseDouble(t1.toString()),
+				Double.parseDouble(t2.toString()));
 	}
 }
