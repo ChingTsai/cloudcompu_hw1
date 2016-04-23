@@ -27,7 +27,7 @@ public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text> {
 		int file_id;
 		int subRank = 0;
 		Path inFile;
-		byte[] buffer = new byte[20];
+		byte[] buffer = new byte[50];
 		for (WordPos val : values) {
 			if (val.getW() > 0D) {
 				file_id = val.getfile_id();
@@ -42,8 +42,8 @@ public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text> {
 					StringTokenizer itr = new StringTokenizer(offsetList[i]);
 					while (itr.hasMoreTokens()) {
 						fs.open(inFile).read(
-								Long.parseLong(itr.nextToken()) - 10L, buffer,
-								0, 20);
+								Long.parseLong(itr.nextToken()) - 25L, buffer,
+								0, 50);
 						detString = detString
 								+ (new String(buffer, Charset.forName("UTF-8")))
 										.replaceAll("\r|\n", "");
