@@ -35,9 +35,9 @@ public class InvIdxExReducer extends
 			detString = detString + ";" + val.getFileId() + " "
 					+ offsets.length + " [";
 			Arrays.sort(offsets);
-
-			for (LongWritable o : offsets) {
-				detString = detString + o.get() + ",";
+			detString = detString + offsets[0].get();
+			for (int i = 1; i < offsets.length; i++) {
+				detString = detString + "," + offsets[i].get();
 			}
 			detString = detString + "]";
 			df++;
