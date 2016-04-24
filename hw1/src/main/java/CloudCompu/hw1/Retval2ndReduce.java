@@ -23,9 +23,9 @@ public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text> {
 		FileStatus[] status_list = fs.listStatus(new Path(inputDir));
 
 		int reducerId = context.getTaskAttemptID().getTaskID().getId();
-		String detString = "";
+		String detString = "\r\n";
 		int file_id;
-		int subRank = 0;
+		int subRank = 1;
 		Path inFile;
 		byte[] buffer = new byte[50];
 		long pos;
@@ -58,7 +58,7 @@ public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text> {
 				detString = detString + "************************\r\n";
 
 			}
-			if (subRank == 10)
+			if (subRank > 10)
 				break;
 		}
 
