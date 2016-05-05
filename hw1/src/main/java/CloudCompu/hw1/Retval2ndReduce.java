@@ -23,7 +23,7 @@ public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text> {
 		FileStatus[] status_list = fs.listStatus(new Path(inputDir));
 
 		int reducerId = context.getTaskAttemptID().getTaskID().getId();
-		String detString = "\r\n";
+		StringBuilder detString = new StringBuilder("\r\n");
 		int file_id;
 		int subRank = 1;
 		Path inFile;
@@ -32,10 +32,11 @@ public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text> {
 		for (WordPos val : values) {
 			if (val.getW() > 0D) {
 				file_id = val.getfile_id();
-				detString = detString + "Rank " + (subRank + reducerId) + ": "
-						+ status_list[file_id].getPath().getName()
-						+ " score = " + Double.toString(val.getW()) + "\r\n";
-				detString = detString + "************************\r\n";
+				detString.append("Rank " + (subRank + reducerId) + ": ");
+				detString.append(status_list[file_id].getPath().getName());
+				detString.append(" score = " + Double.toString(val.getW())
+						+ "\r\n");
+				detString.append("************************\r\n");
 				subRank++;
 				inFile = status_list[file_id].getPath();
 				String[] offsetList = val.toString().split("_");
@@ -45,24 +46,25 @@ public class Retval2ndReduce extends Reducer<Text, WordPos, Text, Text> {
 					while (itr.hasMoreTokens()) {
 						pos = Long.parseLong(itr.nextToken());
 						fs.open(inFile).read(pos - 25L, buffer, 0, 50);
-						detString = detString
-								+ "   "
-								+ pos
-								+ "   "
-								+ (new String(buffer, Charset.forName("UTF-8")))
-										.replaceAll("\r|\n", "");
-						detString = detString + "\r\n";
+						detString
+								.append("   "
+										+ pos
+										+ "   "
+										+ (new String(buffer, Charset
+												.forName("UTF-8"))).replaceAll(
+												"\r|\n", ""));
+						detString.append("\r\n");
 					}
 				}
 
-				detString = detString + "************************\r\n";
+				detString.append( "************************\r\n");
 
 			}
 			if (subRank > 10)
 				break;
 		}
 
-		detail.set(detString);
+		detail.set(detString.toString());
 		context.write(key, detail);
 	}
 }

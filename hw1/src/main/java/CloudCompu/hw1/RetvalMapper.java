@@ -28,16 +28,16 @@ public class RetvalMapper extends Mapper<Text, Text, Text, WordPos> {
 		df = Integer.parseInt(itr.nextToken());
 
 		for (int i = 0; i < df; i++) {
-			String offset = "";
+			StringBuilder offset = new StringBuilder("");
 			fileName = itr.nextToken();
 			tf = Integer.parseInt(itr.nextToken());
 
 			for (int j = 0; j < tf; j++) {
-				offset = offset + " " + itr.nextToken();
+				offset.append(" " + itr.nextToken());
 			}
 
 			wp.setW((double) tf * Math.log10((double) N / (double) df));
-			wp.set(key.toString()+" "+offset);
+			wp.set(key.toString()+" "+offset.toString());
 			KeyWeight.set(fileName);
 
 			context.write(KeyWeight, wp);
