@@ -27,28 +27,28 @@ public class InvIdxExReducer extends
 		 * long N = context.getConfiguration().getLong(
 		 * "mapreduce.input.fileinputformat.numinputfiles", 0);
 		 */
-		String detString = " ";
+		StringBuilder detString = new StringBuilder(" ");
 		int df = 0;
 
 		for (LongArrayWritable val : values) {
 			LongWritable[] offsets = (LongWritable[]) val.toArray();
-			detString = detString + ";" + val.getFileId() + " "
-					+ offsets.length + " [";
+			detString.append(";").append(
+					val.getFileId() + " " + offsets.length + " [");
 			Arrays.sort(offsets);
-			detString = detString + offsets[0].get();
+			detString.append(offsets[0].get());
 			for (int i = 1; i < offsets.length; i++) {
-				detString = detString + "," + offsets[i].get();
+				detString.append("," + offsets[i].get());
 			}
-			detString = detString + "]";
+			detString.append("]");
 			df++;
 
 		}
-		detString = df + detString;
+		//detString = df + detString;
 		/*
 		 * for (Entry<String, Integer> entry : tmpMap.entrySet()) { detString =
 		 * detString + entry.getKey() + " : " + entry.getValue() + ", "; }
 		 */
-		detail.set(detString);
+		detail.set(df+detString.toString());
 		word.set(key.toString().split("_")[0]);
 		context.write(word, detail);
 	}
