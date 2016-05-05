@@ -17,7 +17,7 @@ public class RetvalNewReduce extends Reducer<Text, WordPos, Text, Text> {
 		String[] query = context.getConfiguration().get("query").split(" ");
 		HashSet<String> h = new HashSet<String>();
 
-		String tmp = "";
+		StringBuilder tmp = new StringBuilder("");
 		double score = 0D;
 
 		int ignore = Integer.parseInt(context.getConfiguration().get("ignore"));
@@ -30,12 +30,12 @@ public class RetvalNewReduce extends Reducer<Text, WordPos, Text, Text> {
 
 				if (h.contains(str[0])) {
 					score += val.getW();
-					tmp = tmp + str[1];
+					tmp.append(str[1]);
 					for (int i = 2; i < str.length; i++) {
-						tmp = tmp + " " + str[i];
+						tmp.append(" " + str[i]);
 					}
 
-					tmp = tmp + "_";
+					tmp.append("_");
 				}
 
 			}
@@ -48,12 +48,12 @@ public class RetvalNewReduce extends Reducer<Text, WordPos, Text, Text> {
 
 				if (h.contains(str[0].toLowerCase())) {
 					score += val.getW();
-					tmp = tmp + str[1];
+					tmp.append(str[1]);
 					for (int i = 2; i < str.length; i++) {
-						tmp = tmp + " " + str[i];
+						tmp.append(" " + str[i]);
 					}
 
-					tmp = tmp + "_";
+					tmp.append("_");
 				}
 
 			}

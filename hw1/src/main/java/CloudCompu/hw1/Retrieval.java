@@ -46,7 +46,7 @@ public class Retrieval {
 		job1.setOutputValueClass(Text.class);
 
 		// set the number of reducer
-		job1.setNumReduceTasks(1);
+		job1.setNumReduceTasks(8);
 
 		// add input/output path
 		FileInputFormat.addInputPath(job1, new Path(args[0]));
